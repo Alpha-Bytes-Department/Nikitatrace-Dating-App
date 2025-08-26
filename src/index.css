@@ -1,0 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-inter: "Poppins", "sans-serif";
+}
+
+@plugin "daisyui" {
+    themes: dark -- light, light -- light;
+  }
+
+  @layer utilities {
+  .text-primary-gradient {
+    @apply font-semibold bg-gradient-to-l from-[#8272e8] to-[#b15fdd] bg-clip-text text-transparent;
+  }
+  .btn-primary {
+    @apply  px-5 py-3 rounded-md cursor-pointer bg-blue-500 hover:shadow-lg hover:bg-blue-600;
+  }
+}
