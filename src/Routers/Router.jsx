@@ -15,6 +15,7 @@ import Subscription from "../Pages/Dashboards/Subscription/Subscription";
 import Company from "../Pages/Dashboards/Company/Company";
 import Ships from "../Pages/Dashboards/Ships/Ships";
 import Announcement from "../Pages/Dashboards/Announcement/Announcement";
+import AdsManagement from "../Pages/Dashboards/AdsManagement/AdsManagement";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -37,8 +38,8 @@ const router = createBrowserRouter([
         element: <Subscription />,
       },
       {
-        path: "/company",
-        element: <Company />,
+        path: "/ads",
+        element: <AdsManagement />,
       },
       {
         path: "/ship",

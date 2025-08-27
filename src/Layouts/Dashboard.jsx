@@ -62,7 +62,7 @@ const Dashboard = () => {
     },
     {
       title: "Ads",
-      path: "/private",
+      path: "/ads",
       icon: iconMappings.Eye,
       role: "admin",
     },

@@ -1,3 +1,4 @@
+import SubscriberList from "./SubscriberList";
 import SubscribersCard from "./SubscribersCard";
 import SubscriptionCard from "./SubscriptionCard";
 
@@ -8,6 +9,7 @@ const Subscription = () => {
       <h1 className='text-3xl font-bold mb-7'>Subscribers</h1>
       <SubscribersCard/>
       <SubscriptionCard/>
+      <SubscriberList/>
     </div>
   );
 };

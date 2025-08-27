@@ -8,6 +8,9 @@ const Users = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const usersPerPage = 5;
+
   const [users, setUsers] = useState([
     {
       id: 1,
@@ -117,6 +120,17 @@ const Users = () => {
       toast.success("User deleted successfully!");
       setIsDeleteModalOpen(false);
       setSelectedUser(null);
+      // Adjust current page if necessary after deletion
+      const totalPages = Math.ceil(
+        users.filter(
+          (user) =>
+            user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            user.email.toLowerCase().includes(searchTerm.toLowerCase())
+        ).length / usersPerPage
+      );
+      if (currentPage > totalPages) {
+        setCurrentPage(totalPages || 1);
+      }
     } catch (error) {
       toast.error("Failed to delete user!");
       console.log(error);
@@ -130,9 +144,26 @@ const Users = () => {
       user.email.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  // Calculate pagination
+  const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
+  const indexOfLastUser = currentPage * usersPerPage;
+  const indexOfFirstUser = indexOfLastUser - usersPerPage;
+  const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
+
+  // Handle page change
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  // Generate page numbers
+  const pageNumbers = [];
+  for (let i = 1; i <= totalPages; i++) {
+    pageNumbers.push(i);
+  }
+
   return (
     <div>
-      <h1 className='text-3xl font-bold mb-7'>User Management</h1>
+      <h1 className="text-3xl font-bold mb-7">User Management</h1>
       <div className="flex items-center justify-between mt-7 mb-7">
         <div className="relative w-full">
           <input
@@ -149,8 +180,8 @@ const Users = () => {
       </div>
       <div className="p-6 rounded-xl shadow-lg border border-gray-200">
         <h2 className="text-2xl font-semibold mb-5">Users</h2>
-        {filteredUsers.length > 0 ? (
-          filteredUsers.map((user) => (
+        {currentUsers.length > 0 ? (
+          currentUsers.map((user) => (
             <div
               key={user.id}
               className="flex items-center justify-between mb-4 border-b border-gray-200 p-2"
@@ -167,13 +198,13 @@ const Users = () => {
               <div className="flex gap-6">
                 <button
                   onClick={() => handleViewClick(user)}
-                  className="py-2 px-5 border border-gray-400 rounded-xl"
+                  className="py-2 px-5 border border-gray-400 rounded-xl hover:bg-gray-100"
                 >
                   View
                 </button>
                 <button
                   onClick={() => handleDeleteClick(user)}
-                  className="py-2 px-5 border border-gray-400 rounded-xl"
+                  className="py-2 px-5 border border-gray-400 rounded-xl hover:bg-gray-100"
                 >
                   Delete
                 </button>
@@ -182,6 +213,47 @@ const Users = () => {
           ))
         ) : (
           <p className="text-gray-500 text-center">No users found.</p>
+        )}
+
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="flex justify-center items-center gap-2 mt-6">
+            <button
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 1}
+              className={`py-2 px-4 border border-gray-200 rounded-xl ${
+                currentPage === 1
+                  ? "text-gray-400 cursor-not-allowed"
+                  : "hover:bg-[#FFF1CE]"
+              }`}
+            >
+              Previous
+            </button>
+            {pageNumbers.map((number) => (
+              <button
+                key={number}
+                onClick={() => handlePageChange(number)}
+                className={`py-2 px-4 rounded-xl ${
+                  currentPage === number
+                    ? "bg-[#FFF1CE] "
+                    : "hover:bg-[#FFF1CE] "
+                }`}
+              >
+                {number}
+              </button>
+            ))}
+            <button
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage === totalPages}
+              className={`py-2 px-4 border border-gray-200 rounded-xl ${
+                currentPage === totalPages
+                  ? "text-gray-400 cursor-not-allowed"
+                  : "hover:bg-[#FFF1CE]"
+              }`}
+            >
+              Next
+            </button>
+          </div>
         )}
 
         {/* View Modal */}
