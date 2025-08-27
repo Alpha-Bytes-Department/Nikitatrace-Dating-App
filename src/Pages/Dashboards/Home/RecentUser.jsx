@@ -1,212 +1,213 @@
 import { useState } from "react";
-import { RiDeleteBin5Line, RiEditBoxLine } from "react-icons/ri";
 import CommonModal from "../../../components/Common/CommonModal";
+import { toast } from "react-toastify";
 
 const RecentUser = () => {
- const initialUsers = [
-  {
-    id: 1,
-    name: "John Anderson",
-    email: "john.anderson@blueoceanlogistics.com",
-    company_name: "Blue Ocean Logistics",
-    ship_name: "MV Pacific Star",
-    role: "User",
-  },
-  {
-    id: 2,
-    name: "Sophie Martinez",
-    email: "sophie.martinez@nauticore.com",
-    company_name: "Nauticore Shipping",
-    ship_name: "SS Horizon Dawn",
-    role: "Admin",
-  },
-  {
-    id: 3,
-    name: "Robert Kim",
-    email: "robert.kim@maritechglobal.com",
-    company_name: "Maritech Global",
-    ship_name: "MV Atlantic Crest",
-    role: "User",
-  },
-  {
-    id: 4,
-    name: "Alice Thompson",
-    email: "alice.thompson@oceanixmarine.com",
-    company_name: "Oceanix Marine",
-    ship_name: "MV Neptune Voyager",
-    role: "User",
-  },
-  {
-    id: 5,
-    name: "Michael Chen",
-    email: "michael.chen@seawavecarriers.com",
-    company_name: "Seawave Carriers",
-    ship_name: "SS Aurora Tide",
-    role: "Moderator",
-  },
-  {
-    id: 6,
-    name: "Emily Nguyen",
-    email: "emily.nguyen@deepbluefreight.com",
-    company_name: "Deep Blue Freight",
-    ship_name: "MV Coral Wind",
-    role: "User",
-  },
-  {
-    id: 7,
-    name: "David Rodriguez",
-    email: "david.rodriguez@navistarlines.com",
-    company_name: "Navistar Lines",
-    ship_name: "SS Ocean Spirit",
-    role: "User",
-  },
-];
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [users, setUsers] = useState([
+    {
+      id: 1,
+      name: "John Anderson",
+      email: "john.anderson@blueoceanlogistics.com",
+      age: 23,
+      location: "12/K, Block-9, London, UK",
+      gender: "Male",
+      image: "https://randomuser.me/api/portraits/men/32.jpg",
+    },
+    {
+      id: 2,
+      name: "Sophia Martinez",
+      email: "sophia.martinez@greenfieldtech.com",
+      age: 29,
+      location: "45B, Sunset Avenue, Los Angeles, USA",
+      gender: "Female",
+      image: "https://randomuser.me/api/portraits/women/44.jpg",
+    },
+    {
+      id: 3,
+      name: "Liam Chen",
+      email: "liam.chen@pacifictraders.com",
+      age: 34,
+      location: "22 Orchard Road, Singapore",
+      gender: "Male",
+      image: "https://randomuser.me/api/portraits/men/65.jpg",
+    },
+    {
+      id: 4,
+      name: "Emma Brown",
+      email: "emma.brown@northwoodhealth.org",
+      age: 27,
+      location: "18 High Street, Manchester, UK",
+      gender: "Female",
+      image: "https://randomuser.me/api/portraits/women/68.jpg",
+    },
+    {
+      id: 5,
+      name: "David Kim",
+      email: "david.kim@skylinefinance.com",
+      age: 31,
+      location: "102 Maple Avenue, Toronto, Canada",
+      gender: "Male",
+      image: "https://randomuser.me/api/portraits/men/12.jpg",
+    },
+    {
+      id: 6,
+      name: "Olivia Garcia",
+      email: "olivia.garcia@freshmarket.co",
+      age: 26,
+      location: "77 King Street, Sydney, Australia",
+      gender: "Female",
+      image: "https://randomuser.me/api/portraits/women/50.jpg",
+    },
+    {
+      id: 7,
+      name: "Ethan Wilson",
+      email: "ethan.wilson@urbanbuilders.com",
+      age: 28,
+      location: "54 Queen’s Road, Auckland, New Zealand",
+      gender: "Male",
+      image: "https://randomuser.me/api/portraits/men/80.jpg",
+    },
+    {
+      id: 8,
+      name: "Ava Patel",
+      email: "ava.patel@mediclinic.org",
+      age: 30,
+      location: "9 Park Lane, Mumbai, India",
+      gender: "Female",
+      image: "https://randomuser.me/api/portraits/women/21.jpg",
+    },
+    {
+      id: 9,
+      name: "Michael Johnson",
+      email: "michael.johnson@silverlinegroup.com",
+      age: 35,
+      location: "200 Broadway, New York, USA",
+      gender: "Male",
+      image: "https://randomuser.me/api/portraits/men/5.jpg",
+    },
+    {
+      id: 10,
+      name: "Isabella Rossi",
+      email: "isabella.rossi@italianstyle.it",
+      age: 25,
+      location: "Via Roma 56, Milan, Italy",
+      gender: "Female",
+      image: "https://randomuser.me/api/portraits/women/12.jpg",
+    },
+  ]);
 
+  const handleViewClick = (user) => {
+    setSelectedUser(user);
+    setIsViewModalOpen(true);
+  };
 
-  // const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  // const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  // const [tokenToDelete, setTokenToDelete] = useState(null);
-  // const [selectedToken, setSelectedToken] = useState(null);
+  const handleDeleteClick = (user) => {
+    setSelectedUser(user);
+    setIsDeleteModalOpen(true);
+  };
 
-  // const handleEdit = (token) => {
-  //   setSelectedToken(token);
-  //   setIsEditModalOpen(true);
-  // };
-
-  // const handleUpdateToken = () => {
-  //   console.log("Updated token:", selectedToken);
-  //   setIsEditModalOpen(false);
-  //   setSelectedToken(null);
-  //   // TODO: Update the token in your list or via API
-  // };
-
-  // const handleDeleteClick = (token) => {
-  //   setTokenToDelete(token);
-  //   setIsDeleteModalOpen(true);
-  // };
-
-  // const confirmDelete = () => {
-  //   console.log("Deleted user:", tokenToDelete);
-  //   // TODO: Remove token from list or trigger API call here
-  //   setIsDeleteModalOpen(false);
-  //   setTokenToDelete(null);
-  // };
+  const confirmDelete = () => {
+    try {
+      setUsers(users.filter((user) => user.id !== selectedUser.id));
+      toast.success("User deleted successfully!");
+      setIsDeleteModalOpen(false);
+      setSelectedUser(null);
+    } catch (error) {
+      toast.error("Failed to delete user!");
+      console.log(error);
+    }
+  };
 
   return (
-    <div className="overflow-x-auto border border-gray-200 rounded-xl p-5">
-      <h2 className="text-2xl font-semibold mb-5">Recent User</h2>
-      <table className="min-w-full rounded-xl text-center overflow-hidden">
-        <thead>
-          <tr className="text-sm  bg-[#F8ECEE] ">
-            <th className="p-4 text-left">User Name</th>
-            <th className="p-4">Email</th>
-            <th className="p-4">Company Name</th>
-            <th className="p-4">Ship Name</th>
-            {/* <th className="p-4">Action</th> */}
-          </tr>
-        </thead>
-        <tbody className="text-sm text-center">
-          {initialUsers?.map((user, idx) => (
-            <tr key={idx} className="border-t border-gray-200">
-              <td className="py-3 px-4 text-left">{user?.name || "N/A"}</td>
-              <td className="py-4 px-4">{user?.email}</td>
-              <td className="py-3 px-4">{user?.company_name || "N/A"}</td>
-              <td className={`py-3 px-4 `}>{user?.ship_name}</td>
-              {/* <td className="py-3 px-4 flex items-center justify-center gap-5">
-                <button onClick={() => handleEdit(user)}>
-                  <RiEditBoxLine className="cursor-pointer" />
-                </button>
-                <button onClick={() => handleDeleteClick(user)}>
-                  <RiDeleteBin5Line className="text-red-500 hover:text-red-700 transition cursor-pointer" />
-                </button>
-              </td> */}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-
-      {/* <CommonModal
-        isOpen={isEditModalOpen}
-        onClose={() => {
-          setIsEditModalOpen(false);
-          setSelectedToken(null);
-        }}
-        title="Edit User"
-      >
-        {selectedToken && (
-          <>
-            <input
-              type="text"
-              placeholder="Author Name"
-              className="w-full border border-blue-300 rounded-md p-2 mb-4"
-            />
-            <select
-              name="category"
-              className="w-full border border-blue-300 rounded-md p-2 mb-4"
-              value={selectedToken.category}
-              onChange={(e) =>
-                setSelectedToken({ ...selectedToken, category: e.target.value })
-              }
+    <div className="p-6 rounded-xl shadow-lg border border-gray-200">
+      <h2 className="text-2xl font-semibold mb-5">Recent Users</h2>
+      {users.map((user) => (
+        <div key={user.id} className="flex items-center justify-between mb-4 border-b border-gray-200 p-2">
+          <div className="flex items-center gap-3">
+            <div className="h-12 w-12 rounded-full">
+              <img src={user.image} alt="" className="rounded-full" />
+            </div>
+            <span>
+              <p className="font-semibold">{user.name}</p>
+              <p className="text-gray-500">{user.email}</p>
+            </span>
+          </div>
+          <div className="flex gap-6">
+            <button
+              onClick={() => handleViewClick(user)}
+              className="py-2 px-5 border border-gray-400 rounded-xl"
             >
-              <option value="" disabled>
-                Select Category
-              </option>
-              <option value="sad">Sad</option>
-              <option value="success">Success</option>
-              <option value="motivation">Motivation</option>
-              <option value="life">Life</option>
-              <option value="love">Love</option>
-              <option value="happiness">Happiness</option>
-            </select>
+              View
+            </button>
+            <button
+              onClick={() => handleDeleteClick(user)}
+              className="py-2 px-5 border border-gray-400 rounded-xl"
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+      ))}
 
-            <textarea
-              rows={4}
-              className="w-full border border-blue-300 rounded-md p-2"
-              placeholder="Edit token"
-              value={selectedToken.token}
-              onChange={(e) =>
-                setSelectedToken({ ...selectedToken, token: e.target.value })
-              }
+      {/* View Modal */}
+      <CommonModal
+        isOpen={isViewModalOpen}
+        onClose={() => setIsViewModalOpen(false)}
+        title="User Details"
+      >
+        {selectedUser && (
+          <div className="space-y-4 text-center">
+            <img
+              src={selectedUser.image}
+              alt={selectedUser.name}
+              className="h-24 w-24 rounded-full mx-auto"
             />
-
-            <div className="flex justify-end gap-3 pt-4">
+            <p className="text-lg font-semibold">{selectedUser.name}</p>
+            <p className="text-gray-500">Email: {selectedUser.email}</p>
+            <p className="text-gray-500">Age: {selectedUser.age}</p>
+            <p className="text-gray-500">Location: {selectedUser.location}</p>
+            <p className="text-gray-500">Gender: {selectedUser.gender}</p>
+            <div className="flex justify-center gap-4 mt-4">
               <button
-                onClick={() => setIsEditModalOpen(false)}
-                className="border px-4 py-2 rounded-md"
+                onClick={() => setIsViewModalOpen(false)}
+                className="border border-gray-400 hover:shadow-xl px-4 py-2 rounded-md w-full"
               >
-                Cancel
-              </button>
-              <button onClick={handleUpdateToken} className="btn-primary">
-                Save
+                Close
               </button>
             </div>
-          </>
+          </div>
         )}
-      </CommonModal> */}
+      </CommonModal>
 
-      {/* ✅ Delete Confirmation Modal */}
-      {/* <CommonModal
+      {/* Delete Modal */}
+      <CommonModal
         isOpen={isDeleteModalOpen}
         onClose={() => setIsDeleteModalOpen(false)}
         title="Confirm Delete"
       >
-        {tokenToDelete && (
+        {selectedUser && (
           <div className="space-y-4 text-center">
-            <p className="text-lg">Are you sure you want to delete?</p>
+            <p className="text-lg">Are you sure you want to delete {selectedUser.name}?</p>
             <div className="flex justify-center gap-4 mt-4">
               <button
                 onClick={() => setIsDeleteModalOpen(false)}
-                className="border px-5 py-3 rounded-md"
+                className="border border-gray-400 px-4 py-2 rounded-md w-full"
               >
                 Cancel
               </button>
-              <button onClick={confirmDelete} className="btn-primary">
+              <button
+                onClick={confirmDelete}
+                className="text-white px-4 py-2 rounded-md bg-[#CE8B38] w-full"
+              >
                 Confirm
               </button>
             </div>
           </div>
         )}
-      </CommonModal> */}
+      </CommonModal>
     </div>
   );
 };

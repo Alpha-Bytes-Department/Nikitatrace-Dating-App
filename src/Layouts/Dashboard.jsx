@@ -56,7 +56,7 @@ const Dashboard = () => {
     },
     {
       title: "Subscriber",
-      path: "/company",
+      path: "/subscription",
       icon: iconMappings.Money,
       role: "admin",
     },
