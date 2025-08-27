@@ -1,4 +1,4 @@
-import React from "react";
+
 import AdsCard from "./AdsCard";
 import AdsList from "./AdsList";
 

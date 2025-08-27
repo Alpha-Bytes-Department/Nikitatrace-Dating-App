@@ -12,9 +12,7 @@ import PrivacyPolicy from "../Pages/Dashboards/Setting/PrivacyPolicy";
 import ForgetPassword from "../Pages/Authentication/ForgetPassword";
 import PrivateMode from "../Pages/Dashboards/PrivateMode/PrivateMode";
 import Subscription from "../Pages/Dashboards/Subscription/Subscription";
-import Company from "../Pages/Dashboards/Company/Company";
 import Ships from "../Pages/Dashboards/Ships/Ships";
-import Announcement from "../Pages/Dashboards/Announcement/Announcement";
 import AdsManagement from "../Pages/Dashboards/AdsManagement/AdsManagement";
 import NotificationPage from "../Pages/Dashboards/NotificationPage/NotificationPage";
 const router = createBrowserRouter([
