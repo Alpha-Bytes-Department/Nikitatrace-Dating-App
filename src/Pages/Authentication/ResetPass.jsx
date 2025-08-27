@@ -1,7 +1,9 @@
 import { useForm } from "react-hook-form";
 import logo from "../../assets/logo/logo.svg";
+import { useNavigate } from "react-router-dom";
 
 const ResetPass = () => {
+  const navigate = useNavigate()
   const {
     register,
     handleSubmit,
@@ -13,12 +15,13 @@ const ResetPass = () => {
 
   const onSubmit = (data) => {
     console.log("Submitted:", data);
+    navigate('/')
     // TODO: Call reset password API here
   };
 
   return (
-    <div className="flex min-h-screen justify-center items-center bg-gray-100 px-4">
-      <div className="flex items-center justify-center px-8 py-12 w-full max-w-md bg-[#DEE5FF] rounded-lg shadow-md">
+    <div className="flex min-h-screen justify-center items-center px-4">
+      <div className="flex items-center justify-center px-10 py-16 w-1/4 bg-[#FCFDEC] border border-[#CE8B38] rounded-lg shadow-md">
         <div className="w-full">
           {/* Logo + Heading */}
           <div className="flex flex-col items-center">
@@ -44,7 +47,7 @@ const ResetPass = () => {
                   minLength: { value: 8, message: "Minimum 8 characters" },
                   maxLength: { value: 10, message: "Maximum 10 characters" },
                 })}
-                className="w-full px-4 py-2 rounded border border-blue-300 outline-none focus:ring-2 focus:ring-blue-400"
+                className="w-full px-4 py-2 rounded-xl border border-gray-200 focus:border-[#CE8B38] outline-none"
               />
               {errors.password && (
                 <p className="text-red-600 text-sm mt-1">
@@ -64,7 +67,7 @@ const ResetPass = () => {
                   validate: (value) =>
                     value === password || "Passwords do not match",
                 })}
-                className="w-full px-4 py-2 rounded border border-blue-300 outline-none focus:ring-2 focus:ring-blue-400"
+                className="w-full px-4 py-2 rounded-xl border border-gray-200 focus:border-[#CE8B38] outline-none"
               />
               {errors.confirmPassword && (
                 <p className="text-red-600 text-sm mt-1">
@@ -77,7 +80,7 @@ const ResetPass = () => {
             <div className=" mt-4">
               <button
                 type="submit"
-                className="text-white px-4 py-2 rounded-md bg-gradient-to-r from-[#D30579] to-[#FAB558] w-full"
+                className="text-white px-4 py-2 rounded-xl bg-[#CE8B38] w-full"
               >
                 Confirm
               </button>

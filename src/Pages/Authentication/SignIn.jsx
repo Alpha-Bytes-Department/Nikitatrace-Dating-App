@@ -2,8 +2,10 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaEye, FaEyeSlash } from "react-icons/fa6";
 import logo from '../../assets/logo/logo.svg'
+import { useNavigate } from "react-router-dom";
 
 const SignIn = () => {
+  const navigate = useNavigate()
   const {
     register,
     handleSubmit,
@@ -17,7 +19,7 @@ const SignIn = () => {
 
   const onSubmit = (data) => {
     console.log("SignIn Data:", data);
-    // Sign-in logic here
+    navigate('/')
   };
 
   return (
@@ -25,7 +27,7 @@ const SignIn = () => {
       
 
       {/* Right Side */}
-      <div className="flex items-center justify-center px-10 py-16 w-1/4 bg-[#DEE5FF] rounded-lg shadow-md">
+      <div className="flex items-center justify-center px-10 py-16 w-1/4 bg-[#FCFDEC] border border-[#CE8B38] rounded-lg shadow-md">
         <div className="max-w-xl w-full relative">
           <div className="flex flex-col items-center">
             <img src={logo} alt="" className="w-36 mb-5" />
@@ -47,7 +49,7 @@ const SignIn = () => {
                   message: "Invalid username",
                 },
               })}
-              className="w-full px-4 py-2 rounded-full border border-blue-200 outline-none"
+              className="w-full px-4 py-2 rounded-xl border border-gray-200 focus:border-[#CE8B38] outline-none"
             />
             {errors.email && (
               <p className="text-red-600 text-sm">{errors.email.message}</p>
@@ -61,12 +63,12 @@ const SignIn = () => {
                   required: "Password is required",
                 })}
                 placeholder="Enter your Password"
-                className="w-full px-4 py-2 rounded-full border border-blue-200 outline-none"
+                className="w-full px-4 py-2 rounded-xl border border-gray-200 focus:border-[#CE8B38] outline-none"
               />
               <button
                 type="button"
                 onClick={togglePasswordVisibility}
-                className="absolute inset-y-0 right-3 flex items-center text-gray-300"
+                className="absolute inset-y-0 right-3 mt-6 flex items-center text-gray-300"
               >
                 {showPassword ? <FaEyeSlash /> : <FaEye />}
               </button>
@@ -83,13 +85,13 @@ const SignIn = () => {
                 <input
                   type="checkbox"
                   {...register("remember")}
-                  className="accent-blue-500"
+                  className="accent-[#CE8B38]"
                 />
                 Remember me
               </label>
               <a
                 href="/forgot_password"
-                className="text-blue-500 hover:underline"
+                className="text-[#CE8B38] hover:underline"
               >
                 Forgot Password?
               </a>
@@ -98,7 +100,7 @@ const SignIn = () => {
             {/* Submit Button */}
             <button
               type="submit"
-              className="text-white px-4 py-2 rounded-md bg-gradient-to-r from-[#D30579] to-[#FAB558] w-full"
+              className="text-white px-4 py-2 rounded-xl bg-[#CE8B38] w-full"
             >
               Sign In
             </button>

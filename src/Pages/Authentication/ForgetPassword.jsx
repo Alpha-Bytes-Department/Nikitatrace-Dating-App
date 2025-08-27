@@ -22,7 +22,7 @@ const ForgetPassword = () => {
       
 
       {/* Right Side */}
-      <div className="flex items-center justify-center px-10 py-16 w-1/4 bg-[#DEE5FF] rounded-lg shadow-md">
+      <div className="flex items-center justify-center px-10 py-16 w-1/4 bg-[#FCFDEC] border border-[#CE8B38] rounded-lg shadow-md">
         <div className="max-w-xl w-full relative">
           <div className="flex flex-col items-center">
             <img src={logo} alt="" className="w-36 mb-5" />
@@ -46,7 +46,7 @@ your password.</p>
                   message: "Invalid Email",
                 },
               })}
-              className="w-full px-4 py-2 mt-2 rounded-full border border-blue-200 outline-none"
+              className="w-full px-4 py-2 rounded-xl border border-gray-200 focus:border-[#CE8B38] outline-none"
             />
             {errors.email && (
               <p className="text-red-600 text-sm">{errors.email.message}</p>
@@ -55,7 +55,7 @@ your password.</p>
             {/* Submit Button */}
             <button
               type="submit"
-              className="text-white px-4 py-2 rounded-md bg-gradient-to-r from-[#D30579] to-[#FAB558] w-full"
+              className="text-white px-4 py-2 mt-4 rounded-xl bg-[#CE8B38] w-full"
             >
               Submit
             </button>

@@ -7,7 +7,7 @@ import  { Toaster } from 'react-hot-toast';
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <div className="font-inter  ">
+    <div className="font-inter bg-[#FCFDEC] ">
       <RouterProvider router={router} />
       <Toaster position="top-center" />
     </div>

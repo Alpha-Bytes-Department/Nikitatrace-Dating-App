@@ -1,7 +1,5 @@
 import DashboardCard from './DashboardCard';
 import RecentUser from './RecentUser';
-import GrowthOverviewChart from './GrowthOverviewChart';
-import UserActivityChart from './UserActivityChart';
 
 const Home = () => {
     return (

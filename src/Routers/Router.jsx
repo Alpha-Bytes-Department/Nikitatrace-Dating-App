@@ -1,5 +1,4 @@
 import { createBrowserRouter } from "react-router";
-// import Signup from "../Pages/Authentication/Signup";
 import SignIn from "../Pages/Authentication/SignIn";
 import OtpVerification from "../Pages/Authentication/OtpVerification";
 import Dashboard from "../Layouts/Dashboard";
@@ -12,7 +11,6 @@ import PrivacyPolicy from "../Pages/Dashboards/Setting/PrivacyPolicy";
 import ForgetPassword from "../Pages/Authentication/ForgetPassword";
 import PrivateMode from "../Pages/Dashboards/PrivateMode/PrivateMode";
 import Subscription from "../Pages/Dashboards/Subscription/Subscription";
-import Ships from "../Pages/Dashboards/Ships/Ships";
 import AdsManagement from "../Pages/Dashboards/AdsManagement/AdsManagement";
 import NotificationPage from "../Pages/Dashboards/NotificationPage/NotificationPage";
 const router = createBrowserRouter([
@@ -39,10 +37,6 @@ const router = createBrowserRouter([
       {
         path: "/ads",
         element: <AdsManagement />,
-      },
-      {
-        path: "/ship",
-        element: <Ships />,
       },
       {
         path: "/notification",
