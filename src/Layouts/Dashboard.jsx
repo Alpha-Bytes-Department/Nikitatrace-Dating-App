@@ -68,7 +68,7 @@ const Dashboard = () => {
     },
     {
       title: "Notification",
-      path: "/announcement",
+      path: "/notification",
       icon: iconMappings.Notification,
       role: "admin",
     },

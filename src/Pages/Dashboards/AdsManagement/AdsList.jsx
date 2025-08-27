@@ -240,7 +240,7 @@ const AdsList = () => {
         <h2 className="text-2xl font-semibold">Ads</h2>
         <button
           onClick={handleAddClick}
-          className="py-2 px-5 bg-black cursor-pointer rounded-xl hover:shadow-2xl text-white"
+          className="py-2 px-5 bg-[#CE8B38] cursor-pointer rounded-xl hover:shadow-2xl text-white"
         >
           + Add New Ads
         </button>

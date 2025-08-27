@@ -12,7 +12,7 @@ const PrivacyPolicy = () => {
   const [formData, setFormData] = useState({
     terms: `
     <p>
-      At <strong>Aroma Queen</strong>, your privacy and trust are extremely important to us. 
+      At <strong>Christian Dating App</strong>, your privacy and trust are extremely important to us. 
       This Privacy Policy outlines how we collect, use, and protect your personal information when 
       you visit our website or make a purchase through our platform.
     </p>
@@ -102,7 +102,7 @@ const PrivacyPolicy = () => {
   return (
     <form onSubmit={handleSubmit} className="">
       {/* Header */}
-      <div className="flex justify-between items-center p-5">
+      <div className="flex justify-between items-center">
         <div className="flex items-center gap-2">
           <button
             onClick={() => navigate(-1)}
@@ -119,7 +119,7 @@ const PrivacyPolicy = () => {
       <div className="p-5">
         {!isEditing ? (
           <div
-            className="leading-7 privacy-content"
+            className="leading-7 privacy-content text-sm"
             dangerouslySetInnerHTML={{ __html: formData.terms }}
           />
         ) : (
@@ -129,7 +129,7 @@ const PrivacyPolicy = () => {
             theme="snow"
             modules={modules}
             placeholder="Write your privacy policy here..."
-            className="quill-custom bg-[#F8ECEE] text-black"
+            className="quill-custom bg-[#FFF1CE] text-black"
           />
         )}
       </div>
@@ -140,7 +140,7 @@ const PrivacyPolicy = () => {
           <button
             type="button"
             onClick={handleEditClick}
-            className="text-white px-4 py-2 rounded-md bg-gradient-to-r from-[#D30579] to-[#FAB558]"
+            className="text-white px-4 py-2 rounded-md bg-[#CE8B38]"
           >
             ✎ Edit
           </button>
@@ -150,7 +150,7 @@ const PrivacyPolicy = () => {
         <div className="flex justify-end px-5 pb-5">
           <button
             type="submit"
-            className="text-white px-4 py-2 rounded-md bg-gradient-to-r from-[#D30579] to-[#FAB558]"
+            className="text-white px-4 py-2 rounded-md bg-[#CE8B38]"
           >
             Update Info
           </button>

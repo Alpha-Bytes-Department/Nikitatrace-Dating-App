@@ -57,7 +57,7 @@ const ProfileInformation = () => {
           <button
             type="button"
             onClick={() => setIsEditing(true)}
-            className="text-white px-4 py-2 rounded-md bg-gradient-to-r from-[#D30579] to-[#FAB558]"
+            className="text-white px-4 py-2 rounded-md bg-[#CE8B38]"
           >
             ✎ Edit Profile
           </button>
@@ -66,7 +66,7 @@ const ProfileInformation = () => {
 
       <div className="flex flex-col lg:flex-row gap-6 py-5 px-20">
         {/* Left (Profile Image & Role) */}
-        <div className="w-full lg:w-1/4 flex flex-col items-center  bg-[#F8ECEE] border border-[#F8ECEE] p-14 rounded-md relative">
+        <div className="w-full lg:w-1/4 flex flex-col items-center  bg-[#FFF1CE] border border-[#FFF1CE] p-14 rounded-md relative">
           <div className="relative">
             <img
               src={formData.profileImage}
@@ -104,7 +104,7 @@ const ProfileInformation = () => {
               value={formData.name}
               onChange={(e) => handleChange("name", e.target.value)}
               disabled={!isEditing}
-              className="w-full  bg-[#F8ECEE] rounded-lg p-5 outline-none"
+              className="w-full  bg-[#FFF1CE] rounded-lg p-5 outline-none"
             />
           </div>
 
@@ -115,7 +115,7 @@ const ProfileInformation = () => {
               value={formData.email}
               onChange={(e) => handleChange("email", e.target.value)}
               disabled={!isEditing}
-              className="w-full  bg-[#F8ECEE] rounded-lg p-5 outline-none"
+              className="w-full  bg-[#FFF1CE] rounded-lg p-5 outline-none"
             />
           </div>
 
@@ -129,7 +129,7 @@ const ProfileInformation = () => {
               inputClass="!w-full p-7 rounded-lg"
               containerClass="!w-full"
               inputStyle={{
-                backgroundColor: "#F8ECEE",
+                backgroundColor: "#FFF1CE",
                 border: 0,
               }}
             />
@@ -141,7 +141,7 @@ const ProfileInformation = () => {
         <div className="flex justify-end mt-6">
           <button
             type="submit"
-            className="text-white px-4 py-2 rounded-md bg-gradient-to-r from-[#D30579] to-[#FAB558]"
+            className="text-white px-4 py-2 rounded-md bg-[#CE8B38]"
           >
             Save Info
           </button>

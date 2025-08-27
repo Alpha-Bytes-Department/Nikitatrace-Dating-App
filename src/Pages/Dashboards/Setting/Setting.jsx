@@ -1,9 +1,8 @@
 import { IoChevronForwardSharp } from "react-icons/io5";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import CommonModal from "../../../components/Common/CommonModal";
 import { useForm } from "react-hook-form";
-import { RiArrowLeftLine } from "react-icons/ri";
 
 const Setting = () => {
   const [showPasswordModal, setShowPasswordModal] = useState(false);
@@ -28,7 +27,6 @@ const Setting = () => {
     setValue,
   } = useForm();
 
-  const navigate = useNavigate();
 
   // Resend OTP timer
   useEffect(() => {
@@ -103,18 +101,15 @@ const Setting = () => {
   return (
     <div>
       {/* Header */}
-      <div className="flex items-center gap-3 mb-6">
-        <button className="text-2xl cursor-pointer" onClick={() => navigate(-1)}>
-          <RiArrowLeftLine />
-        </button>
-        <h1 className="text-2xl font-semibold">Setting</h1>
+      <div className="flex items-center gap-3 mb-7">
+        <h1 className="text-3xl font-bold">Setting</h1>
       </div>
 
       {/* Setting Options */}
       <div className="space-y-5">
         <Link
           to="/setting/profile"
-          className="bg-[#F8ECEE] p-5 rounded-lg flex justify-between items-center w-full px-7"
+          className="bg-[#FFF1CE] p-5 rounded-lg flex justify-between items-center w-full px-7"
         >
           <p>Personal Information</p>
           <IoChevronForwardSharp />
@@ -122,7 +117,7 @@ const Setting = () => {
 
         <button
           onClick={() => setShowPasswordModal(true)}
-          className="bg-[#F8ECEE] p-5 rounded-lg flex justify-between items-center w-full px-7"
+          className="bg-[#FFF1CE] p-5 rounded-lg flex justify-between items-center w-full px-7"
         >
           <p>Change Password</p>
           <IoChevronForwardSharp />
@@ -130,7 +125,7 @@ const Setting = () => {
 
         <Link
           to="/setting/privacy"
-          className="bg-[#F8ECEE] p-5 rounded-lg flex justify-between items-center w-full px-7"
+          className="bg-[#FFF1CE] p-5 rounded-lg flex justify-between items-center w-full px-7"
         >
           <p>Privacy & Policy</p>
           <IoChevronForwardSharp />
@@ -171,7 +166,7 @@ const Setting = () => {
             className="w-full border border-gray-300 p-3 rounded"
           />
 
-          <button onClick={handleSave} className="text-white px-4 py-2 rounded-md bg-gradient-to-r from-[#D30579] to-[#FAB558] w-full">
+          <button onClick={handleSave} className="text-white px-4 py-2 rounded-md bg-[#CE8B38]">
             Update Password
           </button>
         </div>
@@ -200,7 +195,7 @@ const Setting = () => {
                 ref={(el) => (inputRefs.current[index] = el)}
                 onChange={(e) => handleInputChange(e, index)}
                 onKeyDown={(e) => handleKeyDown(e, index)}
-                className="w-12 h-12 text-center border border-[#F8ECEE] rounded-md focus:outline-none focus:ring-2 focus:ring-[#D30579] text-lg"
+                className="w-12 h-12 text-center border border-[#F8ECEE] rounded-md focus:outline-none focus:ring-2 focus:ring-[#CE8B38] text-lg"
               />
             ))}
           </div>
@@ -233,7 +228,7 @@ const Setting = () => {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="text-white px-4 py-2 rounded-md bg-gradient-to-r from-[#D30579] to-[#FAB558] w-full"
+            className="text-white px-4 py-2 rounded-md bg-[#CE8B38] w-full"
           >
             {isSubmitting ? "Verifying..." : "Verify OTP"}
           </button>
