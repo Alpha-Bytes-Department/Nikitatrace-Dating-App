@@ -20,7 +20,7 @@ const PrivacyPolicy = () => {
     <h3>Information We Collect</h3>
     <p>
       We collect information that you provide when you register, place an order, subscribe to our newsletter, 
-      or interact with our content. This may include your name, email address, shipping information, and 
+      or interact with our content. This may include your name, email addre ss, shipping information, and 
       payment details. We also collect anonymous data like browser type and usage patterns to improve user experience.
     </p>
 
