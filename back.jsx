@@ -137,9 +137,10 @@ const AdsManagement = () => {
     <Loading />
   ) : (
     <div>
+      <h1 className="text-3xl font-bold mb-7">Your Ad</h1>
       <div className="p-6 rounded-xl shadow-lg border border-gray-200">
         <div className="flex justify-between mb-5">
-          <h1 className="text-2xl font-semibold">Your Ad</h1>
+          <h2 className="text-2xl font-semibold">Your Ad</h2>
           <button
             onClick={handleAddClick}
             className="py-2 px-5 bg-[#CE8B38] cursor-pointer rounded-xl hover:shadow-2xl text-white"
@@ -147,53 +148,45 @@ const AdsManagement = () => {
             {ad ? "+ Update" : "Add"}
           </button>
         </div>
-        {ad ? (
-          <div className="flex gap-8 items-start p-4 rounded-lg shadow-sm">
-            {/* Details */}
-            <ul className="flex-1 list-inside space-y-2 text-gray-700">
-              <li>
-                <strong>Title:</strong> {ad.title}
-              </li>
-              <li>
-                <strong>Company:</strong> {ad.company}
-              </li>
-              <li>
-                <strong>Link:</strong>{" "}
-                <a
-                  href={ad.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-600 underline"
-                >
-                  {ad.link}
-                </a>
-              </li>
-              <li>
-                <strong>Start Date:</strong> {ad.start_date}
-              </li>
-              <li>
-                <strong>End Date:</strong> {ad.end_date}
-              </li>
-              <li>
-                <strong>Note:</strong> {ad.note}
-              </li>
-            </ul>
-
-            {/* Banner Image */}
-            {ad.banner && (
-              <div className="w-56 h-56 rounded-lg overflow-hidden shadow-sm flex-shrink-0">
-                <img
-                  src={ad.banner}
-                  alt="Ad Banner"
-                  className="w-full h-full object-cover"
-                />
+        {ad ?
+          <div
+            className="flex items-center justify-between mb-4 border-b border-gray-200 p-2"
+          >
+            <div className="flex items-center gap-3">
+              <div className="h-12 w-12 rounded">
+                <img src={ad.banner} alt="" className="rounded" />
               </div>
-            )}
+              <span>
+                <p className="font-semibold">{ad.title}</p>
+              </span>
+            </div>
+            <div className="flex items-center gap-3">
+              <span>
+                <p className="text-gray-500">{ad.company}</p>
+              </span>
+            </div>
+            <div className="flex gap-6">
+              <div>
+                <p>300</p>
+                <p className="text-sm text-gray-500">Click</p>
+              </div>
+              <button
+                // onClick={() => handleEditClick(user)}
+                className="py-2 px-5 border border-gray-400 rounded-xl hover:bg-gray-100"
+              >
+                Edit
+              </button>
+              <button
+                // onClick={() => handleDeleteClick(user)}
+                className="py-2 px-5 border border-gray-400 rounded-xl hover:bg-gray-100"
+              >
+                Delete
+              </button>
+            </div>
           </div>
-        ) : (
-          <p className="text-gray-500 italic">No ad found. Please add one.</p>
-        )}
-
+        :
+        <p className="text-gray-500 text-center">No ads found.</p>
+      }
 
         {/* Add Modal */}
         <CommonModal

@@ -12,7 +12,7 @@ const apiClient = axios.create({
 apiClient.interceptors.request.use(
   (config) => {
     // const accessToken = getCookie("access_token");
-    const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU4NTEyMjIxLCJpYXQiOjE3NTg0MjU4MjEsImp0aSI6ImE0NTM2NzU2OTdkODQ5NDhhOTlkYmVlOGRjZTRkNTVjIiwidXNlcl9pZCI6IjEiLCJwcm9maWxlIjp0cnVlLCJzdWJzY3JpcHRpb24iOm51bGx9.HrwsNjyCaU2LokPzKIZryVfO-qnRjvs5N07SgIvlw7g";
+    const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU4NTQyMDcwLCJpYXQiOjE3NTg0NTU2NzAsImp0aSI6ImEwODNkYTJmOWIyNjRkZmNhM2E5YTIzM2JhZGRlNDViIiwidXNlcl9pZCI6IjEiLCJwcm9maWxlIjp0cnVlLCJzdWJzY3JpcHRpb24iOm51bGx9.z3EF44WnZOKJ7Zp6XgtdnqDraHdLByUqhjj2DBDIyAI";
     
     if (accessToken) {
       config.headers.Authorization = `Bearer ${accessToken}`;
