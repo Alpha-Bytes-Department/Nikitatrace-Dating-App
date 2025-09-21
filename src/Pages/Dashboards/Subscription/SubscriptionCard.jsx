@@ -25,7 +25,7 @@ const SubscriptionCard = ({plan}) => {
             </div>
             <div>
               <button className="bg-black rounded-lg py-2 px-5 text-white hover:scale-105 duration-300">
-                {basic_subscription_count} subscribers
+                {premium_subscription_count} subscribers
               </button>
             </div>
           </div>
