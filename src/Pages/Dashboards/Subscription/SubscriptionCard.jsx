@@ -1,5 +1,7 @@
 
-const SubscriptionCard = () => {
+const SubscriptionCard = ({plan}) => {
+    const {basic_subscription_count, premium_subscription_count} = plan
+
     return (
         <div>
             <div className="p-6 rounded-xl shadow-lg border border-gray-200 mb-8">
@@ -12,7 +14,7 @@ const SubscriptionCard = () => {
             </div>
             <div>
               <button className="bg-black rounded-lg py-2 px-5 text-white hover:scale-105 duration-300">
-                1,545 subscribers
+                {basic_subscription_count} subscribers
               </button>
             </div>
           </div>
@@ -23,7 +25,7 @@ const SubscriptionCard = () => {
             </div>
             <div>
               <button className="bg-black rounded-lg py-2 px-5 text-white hover:scale-105 duration-300">
-                545 subscribers
+                {basic_subscription_count} subscribers
               </button>
             </div>
           </div>

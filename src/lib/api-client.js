@@ -1,8 +1,8 @@
 import axios from "axios";
 import { getCookie, setCookie, removeAuthTokens } from "./cookie-utils";
 
-// const API_URL = import.meta.env.VITE_API_URL || "https://gentle-thrush-enormously.ngrok-free.app/api";
-const API_URL = import.meta.env.VITE_API_URL || "http://10.10.12.10:8001/api";
+const API_URL = import.meta.env.VITE_API_URL || "https://gentle-thrush-enormously.ngrok-free.app/api";
+// const API_URL = import.meta.env.VITE_API_URL || "http://10.10.12.10:8001/api";
 
 const apiClient = axios.create({
   baseURL: API_URL,
@@ -11,7 +11,9 @@ const apiClient = axios.create({
 
 apiClient.interceptors.request.use(
   (config) => {
-    const accessToken = getCookie("access_token");
+    // const accessToken = getCookie("access_token");
+    const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU4NTEyMjIxLCJpYXQiOjE3NTg0MjU4MjEsImp0aSI6ImE0NTM2NzU2OTdkODQ5NDhhOTlkYmVlOGRjZTRkNTVjIiwidXNlcl9pZCI6IjEiLCJwcm9maWxlIjp0cnVlLCJzdWJzY3JpcHRpb24iOm51bGx9.HrwsNjyCaU2LokPzKIZryVfO-qnRjvs5N07SgIvlw7g";
+    
     if (accessToken) {
       config.headers.Authorization = `Bearer ${accessToken}`;
     }
