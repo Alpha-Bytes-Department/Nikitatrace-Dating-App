@@ -1,28 +1,20 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import { FaCamera } from "react-icons/fa";
 import { RiArrowLeftLine } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 
+import Loading from "../../../components/Common/Loading"
+
+import useFetch from "../../../lib/useFetch"
+import {profileInformationUlr} from "../../../../endpoints"
+
+
 const ProfileInformation = () => {
-  const [isEditing, setIsEditing] = useState(false);
-  const fileInputRef = useRef(null);
+  
+  const {data, loading, error} = useFetch(profileInformationUlr);
 
-  const [formData, setFormData] = useState({
-    name: "Sharon",
-    email: "alkhahsalkgsalkgsalk@gmail.com",
-    phone: "12423000597212",
-    role: "Admin",
-    profileImage: "https://i.pravatar.cc/100",
-  });
-
-  const handleChange = (field, value) => {
-    setFormData((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
-  };
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -35,17 +27,15 @@ const ProfileInformation = () => {
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setIsEditing(false);
-    console.log(formData); // Save API call here
-  };
-
   const navigate = useNavigate();
 
 
   return (
-    <form onSubmit={handleSubmit} className="">
+    loading
+    ?
+    <Loading />
+    :
+    <form className="">
       <div className="flex justify-between items-center mb-6 pb-4">
         <div className="flex items-center gap-3">
           <button className="text-2xl cursor-pointer" onClick={() => navigate(-1)}>
@@ -53,15 +43,6 @@ const ProfileInformation = () => {
         </button>
         <h2 className="font-semibold text-2xl">Personal Information</h2>
         </div>
-        {!isEditing && (
-          <button
-            type="button"
-            onClick={() => setIsEditing(true)}
-            className="text-white px-4 py-2 rounded-md bg-[#CE8B38]"
-          >
-            ✎ Edit Profile
-          </button>
-        )}
       </div>
 
       <div className="flex flex-col lg:flex-row gap-6 py-5 px-20">
@@ -69,30 +50,13 @@ const ProfileInformation = () => {
         <div className="w-full lg:w-1/4 flex flex-col items-center  bg-[#FFF1CE] border border-[#FFF1CE] p-14 rounded-md relative">
           <div className="relative">
             <img
-              src={formData.profileImage}
+              src={data.photo || import.meta.env.VITE_DEFAULT_AVATAR_PATH}
               alt="profile"
               className="w-32 h-32 rounded-full object-cover"
             />
-            {isEditing && (
-              <>
-                <div
-                  className="absolute inset-0 bg-black/30 rounded-full flex items-center justify-center cursor-pointer"
-                  onClick={() => fileInputRef.current.click()}
-                >
-                  <FaCamera className=" text-2xl" />
-                </div>
-                <input
-                  type="file"
-                  accept="image/*"
-                  ref={fileInputRef}
-                  className="hidden"
-                  onChange={handleImageChange}
-                />
-              </>
-            )}
           </div>
           <p className="mt-4 text-gray-700">Profile</p>
-          <p className="text-2xl font-semibold mt-3">{formData.role}</p>
+          <p className="text-2xl font-semibold mt-3">Admin</p>
         </div>
 
         {/* Right (Form Fields) */}
@@ -101,9 +65,8 @@ const ProfileInformation = () => {
             <label className="block mb-1">Name</label>
             <input
               type="text"
-              value={formData.name}
-              onChange={(e) => handleChange("name", e.target.value)}
-              disabled={!isEditing}
+              value={data.full_name}
+              disabled
               className="w-full  bg-[#FFF1CE] rounded-lg p-5 outline-none"
             />
           </div>
@@ -112,41 +75,13 @@ const ProfileInformation = () => {
             <label className="block mb-1">E-mail</label>
             <input
               type="email"
-              value={formData.email}
-              onChange={(e) => handleChange("email", e.target.value)}
-              disabled={!isEditing}
+              value={data.email_address}
+              disabled
               className="w-full  bg-[#FFF1CE] rounded-lg p-5 outline-none"
-            />
-          </div>
-
-          <div>
-            <label className="block mb-1">Phone Number</label>
-            <PhoneInput
-              country={"us"}
-              value={formData.phone}
-              onChange={(value) => handleChange("phone", value)}
-              disabled={!isEditing}
-              inputClass="!w-full p-7 rounded-lg"
-              containerClass="!w-full"
-              inputStyle={{
-                backgroundColor: "#FFF1CE",
-                border: 0,
-              }}
             />
           </div>
         </div>
       </div>
-
-      {isEditing && (
-        <div className="flex justify-end mt-6">
-          <button
-            type="submit"
-            className="text-white px-4 py-2 rounded-md bg-[#CE8B38]"
-          >
-            Save Info
-          </button>
-        </div>
-      )}
     </form>
   );
 };
