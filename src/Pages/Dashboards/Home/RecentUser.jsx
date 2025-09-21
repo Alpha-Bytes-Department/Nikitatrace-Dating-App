@@ -56,7 +56,7 @@ const RecentUser = ({user_list}) => {
           <div className="flex items-center gap-3">
             <div className="h-12 w-12 rounded-full">
                <img
-                src={user.photo || "/src/assets/images/default-avatar.jpg"}
+                src={user.photo || import.meta.env.VITE_DEFAULT_AVATAR_PATH}
                 alt={user.full_name}
                 className="w-full h-full object-cover rounded-full border-2 border-gray-200 shadow-sm"
               />
@@ -92,7 +92,7 @@ const RecentUser = ({user_list}) => {
         {selectedUser && (
           <div className="space-y-4 text-center">
             <img
-              src={selectedUser.photo || "/src/assets/images/default-avatar.jpg"}
+              src={selectedUser.photo || import.meta.env.VITE_DEFAULT_AVATAR_PATH}
               alt={selectedUser.full_name}
               className="h-24 w-24 rounded-full mx-auto"
             />
