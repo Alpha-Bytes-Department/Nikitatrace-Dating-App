@@ -67,9 +67,9 @@ const AdsManagement = () => {
     if (!adData.banner && !previewImage) {
       tempErrors.banner = "Banner image is required";
     }
-    if (adData.banner && !adData.banner instanceof File) {
-        tempErrors.banner = "Banner image is required";
-    }
+    // if (adData.banner && !adData.banner instanceof File) {
+    //     tempErrors.banner = "Banner image is required";
+    // }
     if (!adData.note) {
       tempErrors.note = "Note is required";
     }

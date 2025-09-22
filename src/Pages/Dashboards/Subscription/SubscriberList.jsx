@@ -13,32 +13,11 @@ const SubscriberList = ({subscribers}) => {
 
   console.log("subscribers", users)
   
-  const handleViewClick = (user) => {
-    setSelectedUser(user);
+  const handleViewClick = (subscription) => {
+    setSelectedUser(subscription);
     setIsViewModalOpen(true);
   };
 
-  const handleDeleteClick = (user) => {
-    setSelectedUser(user);
-    setIsDeleteModalOpen(true);
-  };
-
-  const confirmDelete = () => {
-    try {
-      setUsers(users.filter((user) => user.id !== selectedUser.id));
-      toast.success("User deleted successfully!");
-      setIsDeleteModalOpen(false);
-      setSelectedUser(null);
-      // Adjust current page if necessary after deletion
-      const totalPages = Math.ceil((users.length - 1) / usersPerPage);
-      if (currentPage > totalPages) {
-        setCurrentPage(totalPages || 1);
-      }
-    } catch (error) {
-      toast.error("Failed to delete user!");
-      console.log(error);
-    }
-  };
 
   // Calculate pagination
   const totalPages = Math.ceil(users.length / usersPerPage);
@@ -77,16 +56,10 @@ const SubscriberList = ({subscribers}) => {
             </div>
             <div className="flex gap-6">
               <button
-                onClick={() => handleViewClick(subscription.user)}
+                onClick={() => handleViewClick(subscription)}
                 className="py-2 px-5 border border-gray-400 rounded-xl hover:bg-gray-100"
               >
                 View
-              </button>
-              <button
-                onClick={() => handleDeleteClick(subscription.user)}
-                className="py-2 px-5 border border-gray-400 rounded-xl hover:bg-gray-100"
-              >
-                Delete
               </button>
             </div>
           </div>
@@ -143,50 +116,24 @@ const SubscriberList = ({subscribers}) => {
         {selectedUser && (
           <div className="space-y-4 text-center">
             <img
-              src={selectedUser.photo || import.meta.env.VITE_DEFAULT_AVATAR_PATH}
-              alt={selectedUser.full_name}
+              src={selectedUser.user.photo || import.meta.env.VITE_DEFAULT_AVATAR_PATH}
+              alt={selectedUser.user.full_name}
               className="h-24 w-24 rounded-full mx-auto"
             />
-            <p className="text-lg font-semibold">{selectedUser.full_name}</p>
-            <p className="text-gray-500">Email: {selectedUser.email_address}</p>
-            <p className="text-gray-500">Age: {selectedUser.age}</p>
-            <p className="text-gray-500">Location: {selectedUser.location}</p>
-            <p className="text-gray-500">Gender: {selectedUser.gender}</p>
+            <p className="text-lg font-semibold">{selectedUser.user.full_name}</p>
+            <p className="text-gray-500">Email: {selectedUser.user.email_address}</p>
+            <p className="text-gray-500">Age: {selectedUser.user.age}</p>
+            <p className="text-gray-500">Location: {selectedUser.user.location}</p>
+            <p className="text-gray-500">Gender: {selectedUser.user.gender}</p>
+            <p className="text-gray-500">Plan: {selectedUser.plan.name}</p>
+            <p className="text-gray-500">Subscribed on: {new Date(selectedUser.created_at).toLocaleDateString()}</p>
+            <p className="text-gray-500">Expires on: {new Date(selectedUser.expires_at).toLocaleDateString()}</p>
             <div className="flex justify-center gap-4 mt-4">
               <button
                 onClick={() => setIsViewModalOpen(false)}
                 className="border border-gray-400 hover:shadow-xl px-4 py-2 rounded-md w-full"
               >
                 Close
-              </button>
-            </div>
-          </div>
-        )}
-      </CommonModal>
-
-      {/* Delete Modal */}
-      <CommonModal
-        isOpen={isDeleteModalOpen}
-        onClose={() => setIsDeleteModalOpen(false)}
-        title="Confirm Delete"
-      >
-        {selectedUser && (
-          <div className="space-y-4 text-center">
-            <p className="text-lg">
-              Are you sure you want to delete {selectedUser.name}?
-            </p>
-            <div className="flex justify-center gap-4 mt-4">
-              <button
-                onClick={() => setIsDeleteModalOpen(false)}
-                className="border border-gray-400 px-4 py-2 rounded-md w-full"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={confirmDelete}
-                className="text-white px-4 py-2 rounded-md bg-[#CE8B38] w-full"
-              >
-                Confirm
               </button>
             </div>
           </div>
