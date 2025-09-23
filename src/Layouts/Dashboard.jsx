@@ -70,12 +70,12 @@ const Dashboard = () => {
       icon: iconMappings.Eye,
       role: "admin",
     },
-    {
-      title: "Notification",
-      path: "/notification",
-      icon: iconMappings.Notification,
-      role: "admin",
-    },
+    // {
+    //   title: "Notification",
+    //   path: "/notification",
+    //   icon: iconMappings.Notification,
+    //   role: "admin",
+    // },
     {
       title: "Setting",
       path: "/setting",

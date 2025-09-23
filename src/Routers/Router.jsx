@@ -28,7 +28,7 @@ const router = createBrowserRouter([
           { path: "/private", element: <PrivateMode /> },
           { path: "/subscription", element: <Subscription /> },
           { path: "/ads", element: <AdsManagement /> },
-          { path: "/notification", element: <NotificationPage /> },
+          // { path: "/notification", element: <NotificationPage /> },
           { path: "/setting", element: <Setting /> },
           { path: "/setting/profile", element: <ProfileInformation /> },
           { path: "/setting/privacy", element: <PrivacyPolicy /> },
