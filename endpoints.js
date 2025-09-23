@@ -1,4 +1,5 @@
 export const loginUrl = "/auth/sign-in/";
+export const refreshTokenUrl = "/auth/refresh/";
 export const dashboardUrl = "/administration/dashboard/analytics/";
 export const deleteUserUrl = (userId) => `/administration/user/retrieve-update-delete/${userId}/`;
 export const userListUrl = "/administration/user/list/";

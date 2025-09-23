@@ -1,6 +1,8 @@
 import axios from "axios";
 import { getCookie, setCookie, removeAuthTokens } from "./cookie-utils";
 
+import {refreshTokenUrl} from "../../endpoints";
+
 const API_URL = import.meta.env.VITE_API_URL || "https://gentle-thrush-enormously.ngrok-free.app/api";
 // const API_URL = import.meta.env.VITE_API_URL || "http://10.10.12.10:8001/api";
 
@@ -82,21 +84,23 @@ apiClient.interceptors.response.use(
         originalRequest._retry = true;
         isRefreshing = true;
 
-        const refreshToken = getCookie("refreshToken");
+        const refreshToken = getCookie("refresh_token");
         if (!refreshToken) {
           clearAuthState();
           return Promise.reject(error);
         }
 
         try {
-          const response = await apiClient.get(
-            `/auth/refresh-token?refreshToken=${refreshToken}`
+          const response = await apiClient.post(
+            refreshTokenUrl,
+            {"refresh_token": refreshToken}
           );
-          const { accessToken } = response.data.data;
-          setCookie("accessToken", accessToken, { maxAge: 30 * 24 * 60 * 60 });
-          originalRequest.headers.Authorization = `Bearer ${accessToken}`;
-          processQueue(null, accessToken);
-          return axios(originalRequest);
+          console.log(response.data)
+          const { access_token } = response.data;
+          setCookie("access_token", access_token, { maxAge: 30 * 24 * 60 * 60 });
+          originalRequest.headers.Authorization = `Bearer ${access_token}`;
+          processQueue(null, access_token);
+          return apiClient(originalRequest);
         } catch (err) {
           processQueue(err, null);
           clearAuthState();
@@ -113,6 +117,7 @@ apiClient.interceptors.response.use(
 
 function clearAuthState() {
   removeAuthTokens();
+  window.location.href = "/signin";
 }
 
 export default apiClient;
