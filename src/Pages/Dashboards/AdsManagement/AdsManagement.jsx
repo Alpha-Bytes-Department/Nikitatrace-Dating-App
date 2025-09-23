@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import toast, { Toaster } from 'react-hot-toast';
 
 import useFetch from "../../../lib/useFetch";
+import useDelete from "../../../lib/useDelete";
 import useForm from "../../../lib/useForm";
-import { fetchAdUrl, createAddUrl, editAdUrl } from "../../../../endpoints";
+import { fetchAdUrl, createAddUrl, editAdUrl, deleteAdUrl } from "../../../../endpoints";
 
 import Loading from "../../../components/Common/Loading";
 import CommonModal from "../../../components/Common/CommonModal";
@@ -14,6 +15,8 @@ const AdsManagement = () => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState(null);
   const [errors, setErrors] = useState({});
+
+  const {deleteResource} = useDelete();
 
   const [ad, setAdd] = useState(null);
   const [adData, setAdData] = useState({
@@ -45,6 +48,10 @@ const AdsManagement = () => {
     setPreviewImage(adData?.banner);
     setErrors({});
     setIsAddModalOpen(true);
+  };
+
+  const handleDeleteClick = () => {
+    setIsDeleteModalOpen(true);
   };
 
   const validateForm = () => {
@@ -124,6 +131,34 @@ const AdsManagement = () => {
   }
   };
 
+  const confirmDelete = () => {
+    try {
+      
+      deleteResource(deleteAdUrl(adData.id));
+
+      setIsDeleteModalOpen(false);
+      setAdData({
+        id: "",
+        title: "",
+        company: "",
+        link: "",
+        banner: "",
+        start_date: "",
+        end_date: "",
+        note: "",
+      })
+      setAdd(null)
+      toast.success(
+      'Advertisement deleted successfully!', {
+        duration: 2000,
+        position: 'top-right',
+      }
+    );
+    } catch (error) {
+      toast.error("Failed to delete advertisement!");
+      console.log(error);
+    }
+  };
 
 
   // Handle image selection for Add modal
@@ -154,6 +189,7 @@ const AdsManagement = () => {
           </button>
         </div>
         {ad ? (
+          <>
           <div className="flex gap-8 items-start p-4 rounded-lg shadow-sm">
             {/* Details */}
             <ul className="flex-1 list-inside space-y-2 text-gray-700">
@@ -196,6 +232,16 @@ const AdsManagement = () => {
               </div>
             )}
           </div>
+          <div className="flex gap-8 items-start p-4 rounded-lg shadow-sm">
+            <button
+            onClick={handleDeleteClick}
+            className="py-2 px-5 bg-[#CE8B38] cursor-pointer rounded-xl hover:shadow-2xl text-white"
+          >
+            Delete
+          </button>
+          </div>
+          </>
+          
         ) : (
           <p className="text-gray-500 italic">No ad found. Please add one.</p>
         )}
@@ -309,6 +355,33 @@ const AdsManagement = () => {
 
             </div>
           </form>
+        </CommonModal>
+        
+        {/* Delete Modal */}
+        <CommonModal
+          isOpen={isDeleteModalOpen}
+          onClose={() => setIsDeleteModalOpen(false)}
+          title="Confirm Delete"
+        >
+            <div className="space-y-4 text-center">
+              <p className="text-lg">
+                Are you sure you want to delete the add
+              </p>
+              <div className="flex justify-center gap-4 mt-4">
+                <button
+                  onClick={() => setIsDeleteModalOpen(false)}
+                  className="border border-gray-400 px-4 py-2 rounded-md w-full"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={confirmDelete}
+                  className="text-white px-4 py-2 rounded-md bg-[#CE8B38] w-full"
+                >
+                  Confirm
+                </button>
+              </div>
+            </div>
         </CommonModal>
       </div>
     </div>

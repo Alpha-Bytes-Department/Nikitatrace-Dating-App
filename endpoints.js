@@ -8,3 +8,4 @@ export const siteSettingsUrl = "/administration/site/settings/";
 export const fetchAdUrl = "/administration/ad/fetch/";
 export const createAddUrl = "/administration/ad/create/";
 export const editAdUrl = `/administration/ad/update/`;
+export const deleteAdUrl = (adId) => `/administration/ad/delete/${adId}/`;
