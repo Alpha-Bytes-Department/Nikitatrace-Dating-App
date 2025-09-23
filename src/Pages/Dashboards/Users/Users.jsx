@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
 import { Search } from "lucide-react";
+import toast, { Toaster } from 'react-hot-toast';
 
 import {userListUrl, deleteUserUrl} from "../../../../endpoints"
 import useFetch from "../../../lib/useFetch";
@@ -46,7 +46,6 @@ const Users = () => {
       deleteResource(deleteUserUrl(selectedUser.id));
 
       setUsers(users.filter((user) => user.id !== selectedUser.id));
-      toast.success("User deleted successfully!");
       setIsDeleteModalOpen(false);
       setSelectedUser(null);
       
@@ -61,6 +60,12 @@ const Users = () => {
       if (currentPage > totalPages) {
         setCurrentPage(totalPages || 1);
       }
+      toast.success(
+      'User deleted successfully!', {
+        duration: 2000,
+        position: 'top-right',
+      }
+    );
     } catch (error) {
       toast.error("Failed to delete user!");
       console.log(error);

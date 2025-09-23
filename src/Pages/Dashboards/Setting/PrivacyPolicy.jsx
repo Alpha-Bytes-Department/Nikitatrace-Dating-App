@@ -3,6 +3,8 @@ import { IoArrowBackOutline } from "react-icons/io5";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useNavigate } from "react-router-dom";
+import toast, { Toaster } from 'react-hot-toast';
+
 
 import useFetch from "../../../lib/useFetch"
 import usePost from "../../../lib/usePost";
@@ -37,8 +39,13 @@ const PrivacyPolicy = () => {
     e.preventDefault();
     setFormData((prev) => ({ ...prev, terms: description })); // 🟢 Save updated text
     setIsEditing(false);
-    console.log("Saved data:", description); // API call here
-    await postResource(siteSettingsUrl, {"terms_and_conditions": description})
+    await postResource(siteSettingsUrl, {"terms_and_conditions": description});
+    toast.success(
+      'Successfully updated!', {
+        duration: 2000,
+        position: 'top-right',
+      }
+    );
   };
 
   const modules = {

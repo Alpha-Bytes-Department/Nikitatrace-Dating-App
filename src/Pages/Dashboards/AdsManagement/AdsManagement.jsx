@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import toast, { Toaster } from 'react-hot-toast';
 
 import useFetch from "../../../lib/useFetch";
 import useForm from "../../../lib/useForm";
@@ -107,12 +108,17 @@ const AdsManagement = () => {
     try {
       const url = action == "add" ? createAddUrl : editAdUrl;
       const result = await postResource(url, formData);
-      console.log("Ad posted:", result);
       // Reset form and UI here if needed
       setIsAddModalOpen(false);
       setPreviewImage(null);
-      setAdData(result)
-      setAdd(result)
+      setAdData(result);
+      setAdd(result);
+      toast.success(
+      action == "edit" ? 'Successfully updated!': 'New advertisement created successfully', {
+        duration: 2000,
+        position: 'top-right',
+      }
+    );
   } catch (err) {
       console.error("Ad submission failed:", err);
   }
@@ -201,7 +207,7 @@ const AdsManagement = () => {
           onClose={() => setIsAddModalOpen(false)}
           title={ad ? "Edit Ad" : "Add New Ad"}
         >
-          <form method="POST" onSubmit={(event) => ad ? mangeAdd(event, "edit") : mangeAdd(event)} encType="multipart/form-data">
+          <form method="POST" onSubmit={(event) => ad ? mangeAdd(event, "edit") : mangeAdd(event, "add")} encType="multipart/form-data">
             <div className="space-y-6 rounded-xl">
               <div className="flex flex-col items-center">
                 <div className="w-full h-40 border-2 border-dashed border-[#D4A017] rounded-lg mb-4 relative">

@@ -1,5 +1,5 @@
-import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
+import toast, { Toaster } from 'react-hot-toast';
 
 import CommonModal from "../../../components/Common/CommonModal";
 
@@ -35,10 +35,13 @@ const RecentUser = ({user_list}) => {
     try {
       
       await deleteResource(deleteUserUrl(selectedUser.id));
-      console.log("user is delete")
       setUsers(users.filter((user) => user.id !== selectedUser.id));
-      toast.success("User deleted successfully!");
-      console.log("show toast")
+      toast.success(
+      'User deleted successfully!', {
+        duration: 2000,
+        position: 'top-right',
+        }
+      );
       setIsDeleteModalOpen(false);
       setSelectedUser(null);
 
