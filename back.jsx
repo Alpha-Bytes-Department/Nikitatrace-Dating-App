@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react";
-import toast, { Toaster } from 'react-hot-toast';
 
 import useFetch from "../../../lib/useFetch";
-import useDelete from "../../../lib/useDelete";
 import useForm from "../../../lib/useForm";
-import { fetchAdUrl, createAddUrl, editAdUrl, deleteAdUrl } from "../../../../endpoints";
+import { fetchAdUrl, createAddUrl, editAdUrl } from "../../../../endpoints";
 
 import Loading from "../../../components/Common/Loading";
 import CommonModal from "../../../components/Common/CommonModal";
@@ -15,8 +13,6 @@ const AdsManagement = () => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState(null);
   const [errors, setErrors] = useState({});
-
-  const {deleteResource} = useDelete();
 
   const [ad, setAdd] = useState(null);
   const [adData, setAdData] = useState({
@@ -50,10 +46,6 @@ const AdsManagement = () => {
     setIsAddModalOpen(true);
   };
 
-  const handleDeleteClick = () => {
-    setIsDeleteModalOpen(true);
-  };
-
   const validateForm = () => {
     let tempErrors = {};
 
@@ -75,9 +67,9 @@ const AdsManagement = () => {
     if (!adData.banner && !previewImage) {
       tempErrors.banner = "Banner image is required";
     }
-    // if (adData.banner && !adData.banner instanceof File) {
-    //     tempErrors.banner = "Banner image is required";
-    // }
+    if (adData.banner && !adData.banner instanceof File) {
+        tempErrors.banner = "Banner image is required";
+    }
     if (!adData.note) {
       tempErrors.note = "Note is required";
     }
@@ -115,50 +107,17 @@ const AdsManagement = () => {
     try {
       const url = action == "add" ? createAddUrl : editAdUrl;
       const result = await postResource(url, formData);
+      console.log("Ad posted:", result);
       // Reset form and UI here if needed
       setIsAddModalOpen(false);
       setPreviewImage(null);
-      setAdData(result);
-      setAdd(result);
-      toast.success(
-      action == "edit" ? 'Successfully updated!': 'New advertisement created successfully', {
-        duration: 2000,
-        position: 'top-right',
-      }
-    );
+      setAdData(result)
+      setAdd(result)
   } catch (err) {
       console.error("Ad submission failed:", err);
   }
   };
 
-  const confirmDelete = () => {
-    try {
-      
-      deleteResource(deleteAdUrl(adData.id));
-
-      setIsDeleteModalOpen(false);
-      setAdData({
-        id: "",
-        title: "",
-        company: "",
-        link: "",
-        banner: "",
-        start_date: "",
-        end_date: "",
-        note: "",
-      })
-      setAdd(null)
-      toast.success(
-      'Advertisement deleted successfully!', {
-        duration: 2000,
-        position: 'top-right',
-      }
-    );
-    } catch (error) {
-      toast.error("Failed to delete advertisement!");
-      console.log(error);
-    }
-  };
 
 
   // Handle image selection for Add modal
@@ -178,9 +137,10 @@ const AdsManagement = () => {
     <Loading />
   ) : (
     <div>
+      <h1 className="text-3xl font-bold mb-7">Your Ad</h1>
       <div className="p-6 rounded-xl shadow-lg border border-gray-200">
         <div className="flex justify-between mb-5">
-          <h1 className="text-2xl font-semibold">Your Ad</h1>
+          <h2 className="text-2xl font-semibold">Your Ad</h2>
           <button
             onClick={handleAddClick}
             className="py-2 px-5 bg-[#CE8B38] cursor-pointer rounded-xl hover:shadow-2xl text-white"
@@ -188,64 +148,45 @@ const AdsManagement = () => {
             {ad ? "+ Update" : "Add"}
           </button>
         </div>
-        {ad ? (
-          <>
-          <div className="flex gap-8 items-start p-4 rounded-lg shadow-sm">
-            {/* Details */}
-            <ul className="flex-1 list-inside space-y-2 text-gray-700">
-              <li>
-                <strong>Title:</strong> {ad.title}
-              </li>
-              <li>
-                <strong>Company:</strong> {ad.company}
-              </li>
-              <li>
-                <strong>Link:</strong>{" "}
-                <a
-                  href={ad.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-600 underline"
-                >
-                  {ad.link}
-                </a>
-              </li>
-              <li>
-                <strong>Start Date:</strong> {ad.start_date}
-              </li>
-              <li>
-                <strong>End Date:</strong> {ad.end_date}
-              </li>
-              <li>
-                <strong>Note:</strong> {ad.note}
-              </li>
-            </ul>
-
-            {/* Banner Image */}
-            {ad.banner && (
-              <div className="w-56 h-56 rounded-lg overflow-hidden shadow-sm flex-shrink-0">
-                <img
-                  src={ad.banner}
-                  alt="Ad Banner"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            )}
-          </div>
-          <div className="flex gap-8 items-start p-4 rounded-lg shadow-sm">
-            <button
-            onClick={handleDeleteClick}
-            className="py-2 px-5 bg-[#CE8B38] cursor-pointer rounded-xl hover:shadow-2xl text-white"
+        {ad ?
+          <div
+            className="flex items-center justify-between mb-4 border-b border-gray-200 p-2"
           >
-            Delete
-          </button>
+            <div className="flex items-center gap-3">
+              <div className="h-12 w-12 rounded">
+                <img src={ad.banner} alt="" className="rounded" />
+              </div>
+              <span>
+                <p className="font-semibold">{ad.title}</p>
+              </span>
+            </div>
+            <div className="flex items-center gap-3">
+              <span>
+                <p className="text-gray-500">{ad.company}</p>
+              </span>
+            </div>
+            <div className="flex gap-6">
+              <div>
+                <p>300</p>
+                <p className="text-sm text-gray-500">Click</p>
+              </div>
+              <button
+                // onClick={() => handleEditClick(user)}
+                className="py-2 px-5 border border-gray-400 rounded-xl hover:bg-gray-100"
+              >
+                Edit
+              </button>
+              <button
+                // onClick={() => handleDeleteClick(user)}
+                className="py-2 px-5 border border-gray-400 rounded-xl hover:bg-gray-100"
+              >
+                Delete
+              </button>
+            </div>
           </div>
-          </>
-          
-        ) : (
-          <p className="text-gray-500 italic">No ad found. Please add one.</p>
-        )}
-
+        :
+        <p className="text-gray-500 text-center">No ads found.</p>
+      }
 
         {/* Add Modal */}
         <CommonModal
@@ -253,7 +194,7 @@ const AdsManagement = () => {
           onClose={() => setIsAddModalOpen(false)}
           title={ad ? "Edit Ad" : "Add New Ad"}
         >
-          <form method="POST" onSubmit={(event) => ad ? mangeAdd(event, "edit") : mangeAdd(event, "add")} encType="multipart/form-data">
+          <form method="POST" onSubmit={(event) => ad ? mangeAdd(event, "edit") : mangeAdd(event)} encType="multipart/form-data">
             <div className="space-y-6 rounded-xl">
               <div className="flex flex-col items-center">
                 <div className="w-full h-40 border-2 border-dashed border-[#D4A017] rounded-lg mb-4 relative">
@@ -355,33 +296,6 @@ const AdsManagement = () => {
 
             </div>
           </form>
-        </CommonModal>
-        
-        {/* Delete Modal */}
-        <CommonModal
-          isOpen={isDeleteModalOpen}
-          onClose={() => setIsDeleteModalOpen(false)}
-          title="Confirm Delete"
-        >
-            <div className="space-y-4 text-center">
-              <p className="text-lg">
-                Are you sure you want to delete the add
-              </p>
-              <div className="flex justify-center gap-4 mt-4">
-                <button
-                  onClick={() => setIsDeleteModalOpen(false)}
-                  className="border border-gray-400 px-4 py-2 rounded-md w-full"
-                >
-                  Cancel
-                </button>
-                <button
-                  onClick={confirmDelete}
-                  className="text-white px-4 py-2 rounded-md bg-[#CE8B38] w-full"
-                >
-                  Confirm
-                </button>
-              </div>
-            </div>
         </CommonModal>
       </div>
     </div>

@@ -4,23 +4,49 @@ import { FaEye, FaEyeSlash } from "react-icons/fa6";
 import logo from '../../assets/logo/logo.svg'
 import { useNavigate } from "react-router-dom";
 
+import {setAuthTokens} from "../../lib/cookie-utils"
+import apiClient from "../../lib/api-client";
+import {loginUrl} from "../../../endpoints"
+
 const SignIn = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
-    formState: { errors },
-  } = useForm();
+    formState: { errors, isValid },
+  } = useForm({ mode: "onChange" });
   const [showPassword, setShowPassword] = useState(false);
+  const [serverError, setServerError] = useState("")
 
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
   };
 
-  const onSubmit = (data) => {
-    console.log("SignIn Data:", data);
-    navigate('/')
-  };
+const onSubmit = async (data) => {
+  try {
+    const response = await apiClient.post(loginUrl, {
+      email_address: data.email_address,
+      password: data.password,
+    });
+
+    setServerError("");
+    setAuthTokens(response.data.access_token, response.data.refresh_token);
+    navigate('/');
+  } catch (error) {
+    console.error("Login failed:", error);
+
+    const newMessage =
+      error?.response?.data?.message ||
+      error?.message ||
+      "Login failed. Please try again.";
+
+    // Avoid adding extra space each time
+    setServerError((prev) => (prev !== newMessage ? newMessage : newMessage + " "));
+  }
+};
+
+
+
 
   return (
     <div className="flex min-h-screen justify-center items-center ">
@@ -35,25 +61,28 @@ const SignIn = () => {
             Sign In
           </h2>
           </div>
-
+          {serverError && (
+              <p className="text-red-600 text-sm mb-4">{serverError}</p>
+            )}
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             {/* Email */}
             <label className="text-gray-400">Username</label>
             <input
               type="email"
               placeholder="Enter Username"
-              {...register("email", {
+              {...register("email_address", {
                 required: "Email is required",
                 pattern: {
                   value: /^\S+@\S+$/i,
-                  message: "Invalid username",
+                  message: "Invalid email",
                 },
               })}
               className="w-full px-4 py-2 rounded-xl border border-gray-200 focus:border-[#CE8B38] outline-none"
             />
-            {errors.email && (
-              <p className="text-red-600 text-sm">{errors.email.message}</p>
+            {errors.email_address && (
+              <p className="text-red-600 text-sm">{errors.email_address.message}</p>
             )}
+
 
             <div className="relative">
               <label className="text-gray-400">Password</label>
@@ -80,7 +109,7 @@ const SignIn = () => {
             )}
 
             {/* Remember Me & Forgot Password */}
-            <div className="flex items-center justify-between text-sm mb-10">
+            {/* <div className="flex items-center justify-between text-sm mb-10">
               <label className="flex items-center gap-2">
                 <input
                   type="checkbox"
@@ -95,12 +124,13 @@ const SignIn = () => {
               >
                 Forgot Password?
               </a>
-            </div>
+            </div> */}
 
             {/* Submit Button */}
             <button
               type="submit"
               className="text-white px-4 py-2 rounded-xl bg-[#CE8B38] w-full"
+              disabled={!isValid}
             >
               Sign In
             </button>

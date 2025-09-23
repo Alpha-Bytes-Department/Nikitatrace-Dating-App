@@ -1,108 +1,34 @@
-import { useState } from "react";
-import CommonModal from "../../../components/Common/CommonModal";
-import { toast } from "react-toastify";
+import { useEffect, useState } from "react";
 import { Search } from "lucide-react";
+import toast, { Toaster } from 'react-hot-toast';
+
+import {userListUrl, deleteUserUrl} from "../../../../endpoints"
+import useFetch from "../../../lib/useFetch";
+import useDelete from "../../../lib/useDelete";
+
+import Loading from "../../../components/Common/Loading"
+import CommonModal from "../../../components/Common/CommonModal";
+
 
 const Users = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
+  
   const [currentPage, setCurrentPage] = useState(1);
   const usersPerPage = 5;
 
-  const [users, setUsers] = useState([
-    {
-      id: 1,
-      name: "John Anderson",
-      email: "john.anderson@blueoceanlogistics.com",
-      age: 23,
-      location: "12/K, Block-9, London, UK",
-      gender: "Male",
-      image: "https://randomuser.me/api/portraits/men/32.jpg",
-    },
-    {
-      id: 2,
-      name: "Sophia Martinez",
-      email: "sophia.martinez@greenfieldtech.com",
-      age: 29,
-      location: "45B, Sunset Avenue, Los Angeles, USA",
-      gender: "Female",
-      image: "https://randomuser.me/api/portraits/women/44.jpg",
-    },
-    {
-      id: 3,
-      name: "Liam Chen",
-      email: "liam.chen@pacifictraders.com",
-      age: 34,
-      location: "22 Orchard Road, Singapore",
-      gender: "Male",
-      image: "https://randomuser.me/api/portraits/men/65.jpg",
-    },
-    {
-      id: 4,
-      name: "Emma Brown",
-      email: "emma.brown@northwoodhealth.org",
-      age: 27,
-      location: "18 High Street, Manchester, UK",
-      gender: "Female",
-      image: "https://randomuser.me/api/portraits/women/68.jpg",
-    },
-    {
-      id: 5,
-      name: "David Kim",
-      email: "david.kim@skylinefinance.com",
-      age: 31,
-      location: "102 Maple Avenue, Toronto, Canada",
-      gender: "Male",
-      image: "https://randomuser.me/api/portraits/men/12.jpg",
-    },
-    {
-      id: 6,
-      name: "Olivia Garcia",
-      email: "olivia.garcia@freshmarket.co",
-      age: 26,
-      location: "77 King Street, Sydney, Australia",
-      gender: "Female",
-      image: "https://randomuser.me/api/portraits/women/50.jpg",
-    },
-    {
-      id: 7,
-      name: "Ethan Wilson",
-      email: "ethan.wilson@urbanbuilders.com",
-      age: 28,
-      location: "54 Queen’s Road, Auckland, New Zealand",
-      gender: "Male",
-      image: "https://randomuser.me/api/portraits/men/80.jpg",
-    },
-    {
-      id: 8,
-      name: "Ava Patel",
-      email: "ava.patel@mediclinic.org",
-      age: 30,
-      location: "9 Park Lane, Mumbai, India",
-      gender: "Female",
-      image: "https://randomuser.me/api/portraits/women/21.jpg",
-    },
-    {
-      id: 9,
-      name: "Michael Johnson",
-      email: "michael.johnson@silverlinegroup.com",
-      age: 35,
-      location: "200 Broadway, New York, USA",
-      gender: "Male",
-      image: "https://randomuser.me/api/portraits/men/5.jpg",
-    },
-    {
-      id: 10,
-      name: "Isabella Rossi",
-      email: "isabella.rossi@italianstyle.it",
-      age: 25,
-      location: "Via Roma 56, Milan, Italy",
-      gender: "Female",
-      image: "https://randomuser.me/api/portraits/women/12.jpg",
-    },
-  ]);
+  const {data = [], loading, error} = useFetch(userListUrl);
+
+  const [users, setUsers] = useState([]);
+
+  const {deleteResource} = useDelete();
+
+ useEffect(() => {
+  if (data) setUsers(data);
+}, [data]);
+
 
   const handleViewClick = (user) => {
     setSelectedUser(user);
@@ -116,21 +42,30 @@ const Users = () => {
 
   const confirmDelete = () => {
     try {
+      
+      deleteResource(deleteUserUrl(selectedUser.id));
+
       setUsers(users.filter((user) => user.id !== selectedUser.id));
-      toast.success("User deleted successfully!");
       setIsDeleteModalOpen(false);
       setSelectedUser(null);
+      
       // Adjust current page if necessary after deletion
       const totalPages = Math.ceil(
         users.filter(
           (user) =>
-            user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            user.email.toLowerCase().includes(searchTerm.toLowerCase())
+            user.full_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            user.email_address.toLowerCase().includes(searchTerm.toLowerCase())
         ).length / usersPerPage
       );
       if (currentPage > totalPages) {
         setCurrentPage(totalPages || 1);
       }
+      toast.success(
+      'User deleted successfully!', {
+        duration: 2000,
+        position: 'top-right',
+      }
+    );
     } catch (error) {
       toast.error("Failed to delete user!");
       console.log(error);
@@ -140,8 +75,8 @@ const Users = () => {
   // Filter users based on search term
   const filteredUsers = users.filter(
     (user) =>
-      user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      user.email.toLowerCase().includes(searchTerm.toLowerCase())
+      user.full_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.email_address.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   // Calculate pagination
@@ -159,6 +94,12 @@ const Users = () => {
   const pageNumbers = [];
   for (let i = 1; i <= totalPages; i++) {
     pageNumbers.push(i);
+  }
+
+  if(loading) {
+    return (
+      <Loading />
+    )
   }
 
   return (
@@ -188,11 +129,15 @@ const Users = () => {
             >
               <div className="flex items-center gap-3">
                 <div className="h-12 w-12 rounded-full">
-                  <img src={user.image} alt="" className="rounded-full" />
+                  <img
+                  src={user.photo || import.meta.env.VITE_DEFAULT_AVATAR_PATH}
+                  alt={user.full_name}
+                  className="w-full h-full object-cover rounded-full border-2 border-gray-200 shadow-sm"
+                />
                 </div>
                 <span>
-                  <p className="font-semibold">{user.name}</p>
-                  <p className="text-gray-500">{user.email}</p>
+                  <p className="font-semibold">{user.full_name}</p>
+                  <p className="text-gray-500">{user.email_address}</p>
                 </span>
               </div>
               <div className="flex gap-6">
@@ -265,15 +210,15 @@ const Users = () => {
           {selectedUser && (
             <div className="space-y-4 text-center">
               <img
-                src={selectedUser.image}
+                src={selectedUser.photo || import.meta.env.VITE_DEFAULT_AVATAR_PATH}
                 alt={selectedUser.name}
                 className="h-24 w-24 rounded-full mx-auto"
               />
-              <p className="text-lg font-semibold">{selectedUser.name}</p>
-              <p className="text-gray-500">Email: {selectedUser.email}</p>
-              <p className="text-gray-500">Age: {selectedUser.age}</p>
-              <p className="text-gray-500">Location: {selectedUser.location}</p>
-              <p className="text-gray-500">Gender: {selectedUser.gender}</p>
+              <p className="text-lg font-semibold">{selectedUser.full_name}</p>
+              <p className="text-gray-500">Email: {selectedUser.email_address}</p>
+              <p className="text-gray-500">Age: {selectedUser.profile?.age}</p>
+              <p className="text-gray-500">Location: {selectedUser.profile?.location}</p>
+              <p className="text-gray-500">Gender: {selectedUser.profile?.gender}</p>
               <div className="flex justify-center gap-4 mt-4">
                 <button
                   onClick={() => setIsViewModalOpen(false)}

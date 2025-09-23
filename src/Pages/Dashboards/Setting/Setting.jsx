@@ -115,13 +115,13 @@ const Setting = () => {
           <IoChevronForwardSharp />
         </Link>
 
-        <button
+        {/* <button
           onClick={() => setShowPasswordModal(true)}
           className="bg-[#FFF1CE] p-5 rounded-lg flex justify-between items-center w-full px-7"
         >
           <p>Change Password</p>
           <IoChevronForwardSharp />
-        </button>
+        </button> */}
 
         <Link
           to="/setting/privacy"
