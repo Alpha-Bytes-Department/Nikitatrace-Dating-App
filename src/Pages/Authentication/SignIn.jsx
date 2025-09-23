@@ -29,19 +29,22 @@ const onSubmit = async (data) => {
       password: data.password,
     });
 
-    // Clear error only on success
     setServerError("");
     setAuthTokens(response.data.access_token, response.data.refresh_token);
     navigate('/');
   } catch (error) {
-    console.error("Login failed:", error.response?.data || error.message);
+    console.error("Login failed:", error);
 
-    // Always update the error, even if the same as before
-    const newMessage = error.response?.data?.message || "Login failed.";
-    setServerError(prev => prev !== newMessage ? newMessage : newMessage + " "); 
-    // ^ This forces re-render even if the message is the same
+    const newMessage =
+      error?.response?.data?.message ||
+      error?.message ||
+      "Login failed. Please try again.";
+
+    // Avoid adding extra space each time
+    setServerError((prev) => (prev !== newMessage ? newMessage : newMessage + " "));
   }
 };
+
 
 
 
@@ -106,7 +109,7 @@ const onSubmit = async (data) => {
             )}
 
             {/* Remember Me & Forgot Password */}
-            <div className="flex items-center justify-between text-sm mb-10">
+            {/* <div className="flex items-center justify-between text-sm mb-10">
               <label className="flex items-center gap-2">
                 <input
                   type="checkbox"
@@ -121,7 +124,7 @@ const onSubmit = async (data) => {
               >
                 Forgot Password?
               </a>
-            </div>
+            </div> */}
 
             {/* Submit Button */}
             <button
