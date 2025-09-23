@@ -3,7 +3,7 @@ import { IoArrowBackOutline } from "react-icons/io5";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useNavigate } from "react-router-dom";
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 
 
 import useFetch from "../../../lib/useFetch"

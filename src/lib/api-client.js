@@ -1,10 +1,8 @@
 import axios from "axios";
 import { getCookie, setCookie, removeAuthTokens } from "./cookie-utils";
-
-import {refreshTokenUrl} from "../../endpoints";
+import { refreshTokenUrl, loginUrl } from "../../endpoints";
 
 const API_URL = import.meta.env.VITE_API_URL || "https://gentle-thrush-enormously.ngrok-free.app/api";
-// const API_URL = import.meta.env.VITE_API_URL || "http://10.10.12.10:8001/api";
 
 const apiClient = axios.create({
   baseURL: API_URL,
@@ -13,11 +11,12 @@ const apiClient = axios.create({
 
 apiClient.interceptors.request.use(
   (config) => {
-    const accessToken = getCookie("access_token");
-    // const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU4Njg0NjkzLCJpYXQiOjE3NTg1OTgyOTMsImp0aSI6ImRmOTZlMDlmNzI0OTQ4YzZiMTNkOTQ3OTdmMjdkMjgyIiwidXNlcl9pZCI6IjEiLCJwcm9maWxlIjp0cnVlLCJzdWJzY3JpcHRpb24iOm51bGx9.URV1onyaRFSEK7IHi3QicCDoF0AM4Zu1wkTIZSceHX8";
-    
-    if (accessToken) {
-      config.headers.Authorization = `Bearer ${accessToken}`;
+    // Skip adding Authorization header for login endpoint
+    if (!config.url.includes(loginUrl)) {
+      const accessToken = getCookie("access_token");
+      if (accessToken) {
+        config.headers.Authorization = `Bearer ${accessToken}`;
+      }
     }
     // Ensure FormData requests don't have a conflicting Content-Type
     if (config.data instanceof FormData) {
@@ -48,12 +47,19 @@ const processQueue = (error, token = null) => {
 apiClient.interceptors.response.use(
   (response) => response,
   async (error) => {
-    // Check if response is HTML or non-JSON to avoid 'includes' error
+    // Check for non-JSON response
     if (error.response && typeof error.response.data === "string") {
       return Promise.reject(
         new Error("Invalid response format from server (likely HTML)")
       );
     }
+
+    // Skip unauthorized handling for login endpoint
+    if (error.config.url.includes(loginUrl)) {
+      return Promise.reject(error); // Pass login errors directly to component
+    }
+
+    // Handle "You are not authorized" for non-login endpoints
     if (
       error.response?.data?.message &&
       typeof error.response.data.message === "string" &&
@@ -61,8 +67,14 @@ apiClient.interceptors.response.use(
     ) {
       console.error("Invalid token detected, clearing auth state");
       removeAuthTokens();
-      clearAuthState();
+      // Only redirect if not on signin page
+      if (window.location.pathname !== "/signin") {
+        window.location.href = "/signin";
+      }
+      return Promise.reject(error);
     }
+
+    // Handle 401 errors for token refresh
     if (error.response && error.response.status === 401) {
       const originalRequest = error.config;
       if (
@@ -86,16 +98,18 @@ apiClient.interceptors.response.use(
 
         const refreshToken = getCookie("refresh_token");
         if (!refreshToken) {
-          clearAuthState();
+          // Only redirect if not on signin page
+          if (window.location.pathname !== "/signin") {
+            removeAuthTokens();
+            window.location.href = "/signin";
+          }
           return Promise.reject(error);
         }
 
         try {
-          const response = await apiClient.post(
-            refreshTokenUrl,
-            {"refresh_token": refreshToken}
-          );
-          console.log(response.data)
+          const response = await apiClient.post(refreshTokenUrl, {
+            refresh_token: refreshToken,
+          });
           const { access_token } = response.data;
           setCookie("access_token", access_token, { maxAge: 30 * 24 * 60 * 60 });
           originalRequest.headers.Authorization = `Bearer ${access_token}`;
@@ -103,7 +117,11 @@ apiClient.interceptors.response.use(
           return apiClient(originalRequest);
         } catch (err) {
           processQueue(err, null);
-          clearAuthState();
+          // Only redirect if not on signin page
+          if (window.location.pathname !== "/signin") {
+            removeAuthTokens();
+            window.location.href = "/signin";
+          }
           return Promise.reject(err);
         } finally {
           isRefreshing = false;
@@ -114,10 +132,5 @@ apiClient.interceptors.response.use(
     return Promise.reject(error);
   }
 );
-
-function clearAuthState() {
-  removeAuthTokens();
-  window.location.href = "/signin";
-}
 
 export default apiClient;
