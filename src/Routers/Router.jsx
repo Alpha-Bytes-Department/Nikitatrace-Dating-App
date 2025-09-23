@@ -1,4 +1,5 @@
-import { createBrowserRouter } from "react-router";
+import { createBrowserRouter } from "react-router-dom";
+import ProtectedRoute from "./ProtectedRoute";
 import SignIn from "../Pages/Authentication/SignIn";
 import OtpVerification from "../Pages/Authentication/OtpVerification";
 import Dashboard from "../Layouts/Dashboard";
@@ -13,46 +14,25 @@ import PrivateMode from "../Pages/Dashboards/PrivateMode/PrivateMode";
 import Subscription from "../Pages/Dashboards/Subscription/Subscription";
 import AdsManagement from "../Pages/Dashboards/AdsManagement/AdsManagement";
 import NotificationPage from "../Pages/Dashboards/NotificationPage/NotificationPage";
+
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <Dashboard />,
+    element: <ProtectedRoute />,
     children: [
       {
         path: "/",
-        element: <Home />,
-      },
-      {
-        path: "/user",
-        element: <Users />,
-      },
-      {
-        path: "/private",
-        element: <PrivateMode />,
-      },
-      {
-        path: "/subscription",
-        element: <Subscription />,
-      },
-      {
-        path: "/ads",
-        element: <AdsManagement />,
-      },
-      {
-        path: "/notification",
-        element: <NotificationPage />,
-      },
-      {
-        path: "/setting",
-        element: <Setting />,
-      },
-      {
-        path: "/setting/profile",
-        element: <ProfileInformation />,
-      },
-      {
-        path: "/setting/privacy",
-        element: <PrivacyPolicy />,
+        element: <Dashboard />,
+        children: [
+          { path: "/", element: <Home /> },
+          { path: "/user", element: <Users /> },
+          { path: "/private", element: <PrivateMode /> },
+          { path: "/subscription", element: <Subscription /> },
+          { path: "/ads", element: <AdsManagement /> },
+          { path: "/notification", element: <NotificationPage /> },
+          { path: "/setting", element: <Setting /> },
+          { path: "/setting/profile", element: <ProfileInformation /> },
+          { path: "/setting/privacy", element: <PrivacyPolicy /> },
+        ],
       },
     ],
   },
@@ -60,10 +40,6 @@ const router = createBrowserRouter([
     path: "/signin",
     element: <SignIn />,
   },
-  // {
-  //   path: "/signup",
-  //   element: <Signup />,
-  // },
   {
     path: "/otp",
     element: <OtpVerification />,

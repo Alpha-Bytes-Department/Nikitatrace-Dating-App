@@ -12,6 +12,8 @@ import { LuUsers } from "react-icons/lu";
 import { IconContext } from "react-icons";
 import Swal from "sweetalert2";
 
+import {removeAuthTokens} from "../lib/cookie-utils"
+
 const Dashboard = () => {
   const navigate = useNavigate()
   const location = useLocation();
@@ -26,7 +28,7 @@ const Dashboard = () => {
       cancelButtonText: "No, Cancel!",
     }).then((result) => {
       if (result.isConfirmed) {
-        console.log("User logged out");
+        removeAuthTokens()
         navigate('/signin')
       }
     });
