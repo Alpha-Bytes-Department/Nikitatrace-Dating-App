@@ -2,7 +2,8 @@ import axios from "axios";
 import { getCookie, setCookie, removeAuthTokens } from "./cookie-utils";
 import { refreshTokenUrl, loginUrl } from "../../endpoints";
 
-const API_URL = import.meta.env.VITE_API_URL || "https://gentle-thrush-enormously.ngrok-free.app/api";
+// const API_URL = import.meta.env.VITE_API_URL || "https://gentle-thrush-enormously.ngrok-free.app/api";
+const API_URL = import.meta.env.VITE_API_URL || "http://10.10.12.10:8001/api";
 
 const apiClient = axios.create({
   baseURL: API_URL,

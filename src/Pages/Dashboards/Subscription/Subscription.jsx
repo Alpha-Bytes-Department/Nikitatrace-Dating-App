@@ -4,10 +4,10 @@ import SubscriptionCard from "./SubscriptionCard";
 import Loading from "../../../components/Common/Loading";
 
 import useFetch from "../../../lib/useFetch";
-import {subscriptionUlr} from "../../../../endpoints"
+import {subscriptionUrl} from "../../../../endpoints"
 
 const Subscription = () => {
-  const {data, loading , error } = useFetch(subscriptionUlr);
+  const {data, loading } = useFetch(subscriptionUrl);
 
   return (
     loading

@@ -8,7 +8,6 @@ import useFetch from "../../../lib/useFetch"
 import usePost from "../../../lib/usePost";
 import {siteSettingsUrl} from "../../../../endpoints"
 import Loading from "../../../components/Common/Loading"
-import { CloudSnow } from "lucide-react";
 
 // Debounce hook for optimizing onChange
 function useDebounce(callback, delay) {
@@ -21,7 +20,7 @@ function useDebounce(callback, delay) {
   }, [callback, delay]);
 }
 
-const PrivacyPolicy = () => {
+const TermsCondition = () => {
   const {data, loading, error} = useFetch(siteSettingsUrl);
   const {postResource, loading: submitting, error: postErrors} = usePost()
 
@@ -30,11 +29,11 @@ const PrivacyPolicy = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [description, setDescription] = useState("");
 
-  const [formData, setFormData] = useState({"privacy": ""});
+  const [formData, setFormData] = useState({"terms": ""});
 
   useEffect(() => {
     if (data) {
-      setFormData({"privacy": data.privacy_policy});
+      setFormData({"terms": data.terms_and_conditions});
     }
   }, [data]);
 
@@ -42,16 +41,16 @@ const PrivacyPolicy = () => {
   const debouncedSetDescription = useDebounce(setDescription, 300);
 
   const handleEditClick = useCallback(() => {
-    setDescription(formData.privacy);
+    setDescription(formData.terms);
     setIsEditing(true);
-  }, [formData.privacy]);
+  }, [formData.terms]);
 
   const handleSubmit = useCallback(async (e) => {
     e.preventDefault();
-    setFormData((prev) => ({ ...prev, privacy: description }));
+    setFormData((prev) => ({ ...prev, terms: description }));
     setIsEditing(false);
     try {
-      await postResource(siteSettingsUrl, {"privacy_policy": description});
+      await postResource(siteSettingsUrl, {"terms_and_conditions": description});
       toast.success('Successfully updated!', {
         duration: 2000,
         position: 'top-right',
@@ -91,8 +90,8 @@ const PrivacyPolicy = () => {
 
   // Memoized display content to avoid re-parsing HTML
   const displayContent = useMemo(() => 
-    ({ __html: formData.privacy || '' }), 
-    [formData.privacy]
+    ({ __html: formData.terms || '' }), 
+    [formData.terms]
   );
 
   // Error handling
@@ -122,7 +121,7 @@ const PrivacyPolicy = () => {
           >
             <IoArrowBackOutline className="text-xl" />
           </button>
-          <h2 className="font-semibold text-lg">Privacy Policy</h2>
+          <h2 className="font-semibold text-lg">Terms & Conditions</h2>
         </div>
       </div>
 
@@ -166,4 +165,4 @@ const PrivacyPolicy = () => {
   );
 };
 
-export default PrivacyPolicy;
+export default TermsCondition;

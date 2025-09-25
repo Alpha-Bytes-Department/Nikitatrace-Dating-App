@@ -8,7 +8,6 @@ import useFetch from "../../../lib/useFetch"
 import usePost from "../../../lib/usePost";
 import {siteSettingsUrl} from "../../../../endpoints"
 import Loading from "../../../components/Common/Loading"
-import { CloudSnow } from "lucide-react";
 
 // Debounce hook for optimizing onChange
 function useDebounce(callback, delay) {
@@ -21,7 +20,7 @@ function useDebounce(callback, delay) {
   }, [callback, delay]);
 }
 
-const PrivacyPolicy = () => {
+const CommunityGuideline = () => {
   const {data, loading, error} = useFetch(siteSettingsUrl);
   const {postResource, loading: submitting, error: postErrors} = usePost()
 
@@ -30,11 +29,11 @@ const PrivacyPolicy = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [description, setDescription] = useState("");
 
-  const [formData, setFormData] = useState({"privacy": ""});
+  const [formData, setFormData] = useState({"community": ""});
 
   useEffect(() => {
     if (data) {
-      setFormData({"privacy": data.privacy_policy});
+      setFormData({"community": data.community_guideline});
     }
   }, [data]);
 
@@ -42,16 +41,16 @@ const PrivacyPolicy = () => {
   const debouncedSetDescription = useDebounce(setDescription, 300);
 
   const handleEditClick = useCallback(() => {
-    setDescription(formData.privacy);
+    setDescription(formData.community);
     setIsEditing(true);
-  }, [formData.privacy]);
+  }, [formData.community]);
 
   const handleSubmit = useCallback(async (e) => {
     e.preventDefault();
-    setFormData((prev) => ({ ...prev, privacy: description }));
+    setFormData((prev) => ({ ...prev, community: description }));
     setIsEditing(false);
     try {
-      await postResource(siteSettingsUrl, {"privacy_policy": description});
+      await postResource(siteSettingsUrl, {"community_guideline": description});
       toast.success('Successfully updated!', {
         duration: 2000,
         position: 'top-right',
@@ -84,15 +83,15 @@ const PrivacyPolicy = () => {
       onChange={debouncedSetDescription}
       theme="snow"
       modules={modules}
-      placeholder="Write your privacy policy here..."
+      placeholder="Write your community policy here..."
       className="quill-custom bg-[#FFF1CE] text-black"
     />
   ), [description, debouncedSetDescription, modules]);
 
   // Memoized display content to avoid re-parsing HTML
   const displayContent = useMemo(() => 
-    ({ __html: formData.privacy || '' }), 
-    [formData.privacy]
+    ({ __html: formData.community || '' }), 
+    [formData.community]
   );
 
   // Error handling
@@ -122,7 +121,7 @@ const PrivacyPolicy = () => {
           >
             <IoArrowBackOutline className="text-xl" />
           </button>
-          <h2 className="font-semibold text-lg">Privacy Policy</h2>
+          <h2 className="font-semibold text-lg">community Policy</h2>
         </div>
       </div>
 
@@ -130,7 +129,7 @@ const PrivacyPolicy = () => {
       <div className="p-5">
         {!isEditing ? (
           <div
-            className="leading-7 privacy-content text-sm"
+            className="leading-7 community-content text-sm"
             dangerouslySetInnerHTML={displayContent}
           />
         ) : (
@@ -166,4 +165,4 @@ const PrivacyPolicy = () => {
   );
 };
 
-export default PrivacyPolicy;
+export default CommunityGuideline;

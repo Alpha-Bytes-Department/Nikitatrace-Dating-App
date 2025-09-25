@@ -13,7 +13,9 @@ import ForgetPassword from "../Pages/Authentication/ForgetPassword";
 import PrivateMode from "../Pages/Dashboards/PrivateMode/PrivateMode";
 import Subscription from "../Pages/Dashboards/Subscription/Subscription";
 import AdsManagement from "../Pages/Dashboards/AdsManagement/AdsManagement";
-import NotificationPage from "../Pages/Dashboards/NotificationPage/NotificationPage";
+import TermsCondition from "../Pages/Dashboards/Setting/TermsCondition";
+import CommunityGuideline from "../Pages/Dashboards/Setting/CommunityGuideline";
+// import NotificationPage from "../Pages/Dashboards/NotificationPage/NotificationPage";
 
 const router = createBrowserRouter([
   {
@@ -31,7 +33,9 @@ const router = createBrowserRouter([
           // { path: "/notification", element: <NotificationPage /> },
           { path: "/setting", element: <Setting /> },
           { path: "/setting/profile", element: <ProfileInformation /> },
+          { path: "/setting/condition", element: <TermsCondition /> },
           { path: "/setting/privacy", element: <PrivacyPolicy /> },
+          { path: "/setting/community", element: <CommunityGuideline /> },
         ],
       },
     ],

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Search } from "lucide-react";
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 
 import {userListUrl, deleteUserUrl} from "../../../../endpoints"
 import useFetch from "../../../lib/useFetch";
@@ -19,7 +19,7 @@ const Users = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const usersPerPage = 5;
 
-  const {data = [], loading, error} = useFetch(userListUrl);
+  const {data = [], loading } = useFetch(userListUrl);
 
   const [users, setUsers] = useState([]);
 
@@ -124,20 +124,20 @@ const Users = () => {
         {currentUsers.length > 0 ? (
           currentUsers.map((user) => (
             <div
-              key={user.id}
+              key={user?.id}
               className="flex items-center justify-between mb-4 border-b border-gray-200 p-2"
             >
               <div className="flex items-center gap-3">
                 <div className="h-12 w-12 rounded-full">
                   <img
-                  src={user.photo || import.meta.env.VITE_DEFAULT_AVATAR_PATH}
-                  alt={user.full_name}
+                  src={user?.photo || import.meta.env.VITE_DEFAULT_AVATAR_PATH}
+                  alt={user?.full_name}
                   className="w-full h-full object-cover rounded-full border-2 border-gray-200 shadow-sm"
                 />
                 </div>
                 <span>
-                  <p className="font-semibold">{user.full_name}</p>
-                  <p className="text-gray-500">{user.email_address}</p>
+                  <p className="font-semibold">{user?.full_name}</p>
+                  <p className="text-gray-500">{user?.email_address}</p>
                 </span>
               </div>
               <div className="flex gap-6">

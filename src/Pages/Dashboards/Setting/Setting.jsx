@@ -27,7 +27,6 @@ const Setting = () => {
     setValue,
   } = useForm();
 
-
   // Resend OTP timer
   useEffect(() => {
     let interval;
@@ -115,19 +114,26 @@ const Setting = () => {
           <IoChevronForwardSharp />
         </Link>
 
-        {/* <button
-          onClick={() => setShowPasswordModal(true)}
+        <Link
+          to="/setting/condition"
           className="bg-[#FFF1CE] p-5 rounded-lg flex justify-between items-center w-full px-7"
         >
-          <p>Change Password</p>
+          <p>Terms & Condition</p>
           <IoChevronForwardSharp />
-        </button> */}
+        </Link>
 
         <Link
           to="/setting/privacy"
           className="bg-[#FFF1CE] p-5 rounded-lg flex justify-between items-center w-full px-7"
         >
           <p>Privacy & Policy</p>
+          <IoChevronForwardSharp />
+        </Link>
+        <Link
+          to="/setting/community"
+          className="bg-[#FFF1CE] p-5 rounded-lg flex justify-between items-center w-full px-7"
+        >
+          <p>Community Guideline</p>
           <IoChevronForwardSharp />
         </Link>
       </div>
@@ -166,7 +172,10 @@ const Setting = () => {
             className="w-full border border-gray-300 p-3 rounded"
           />
 
-          <button onClick={handleSave} className="text-white px-4 py-2 rounded-md bg-[#CE8B38]">
+          <button
+            onClick={handleSave}
+            className="text-white px-4 py-2 rounded-md bg-[#CE8B38]"
+          >
             Update Password
           </button>
         </div>
