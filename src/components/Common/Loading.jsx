@@ -2,7 +2,7 @@ const Loading = () => {
     return (
         <div className="flex justify-center items-center h-screen">
             <svg
-            className="animate-spin h-14 w-14 text-blue-500"
+            className="animate-spin h-14 w-14 text-[#CE8B38]"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
