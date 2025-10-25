@@ -56,7 +56,7 @@ const TermsCondition = () => {
         position: 'top-right',
       });
     } catch (err) {
-      toast.error('Failed to update. Please try again.');
+      toast.error('Failed to update. Please try again.', err);
     }
   }, [description, postResource]);
 
