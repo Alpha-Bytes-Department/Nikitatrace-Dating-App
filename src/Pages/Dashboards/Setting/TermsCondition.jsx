@@ -84,7 +84,7 @@ const TermsCondition = () => {
       theme="snow"
       modules={modules}
       placeholder="Write your privacy policy here..."
-      className="quill-custom bg-[#FFF1CE] text-black"
+      className="quill-custom h-[670px] text-black "
     />
   ), [description, debouncedSetDescription, modules]);
 
@@ -139,7 +139,7 @@ const TermsCondition = () => {
 
       {/* Edit and Update Button */}
       {!isEditing && (
-        <div className="flex justify-end px-5 pb-5">
+        <div className="flex justify-end px-5 pb-5 ">
           <button
             type="button"
             onClick={handleEditClick}
@@ -151,7 +151,7 @@ const TermsCondition = () => {
         </div>
       )}
       {isEditing && (
-        <div className="flex justify-end px-5 pb-5">
+        <div className="flex justify-end px-5 pb-5 mt-10">
           <button
             type="submit"
             className="text-white px-4 py-2 rounded-md bg-[#CE8B38] disabled:opacity-50"

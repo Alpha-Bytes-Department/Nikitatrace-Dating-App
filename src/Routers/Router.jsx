@@ -16,7 +16,7 @@ const PrivacyPolicy = lazy(() => import("../Pages/Dashboards/Setting/PrivacyPoli
 const ForgetPassword = lazy(() => import("../Pages/Authentication/ForgetPassword"));
 const PrivateMode = lazy(() => import("../Pages/Dashboards/PrivateMode/PrivateMode"));
 const Subscription = lazy(() => import("../Pages/Dashboards/Subscription/Subscription"));
-const AdsManagement = lazy(() => import("../Pages/Dashboards/AdsManagement/AdsManagement"));
+const Reports = lazy(() => import("../Pages/Dashboards/Reports/Reports"));
 const TermsCondition = lazy(() => import("../Pages/Dashboards/Setting/TermsCondition"));
 const CommunityGuideline = lazy(() => import("../Pages/Dashboards/Setting/CommunityGuideline"));
 
@@ -51,10 +51,10 @@ const router = createBrowserRouter([
           { path: "/private", element: <PrivateMode /> },
           { path: "/subscription", element: <Subscription /> },
           {
-  path: "/ads",
+  path: "/reports",
   element: (
     <Suspense fallback={<Loading />}>
-      <AdsManagement />
+      <Reports />
     </Suspense>
   ),
 },

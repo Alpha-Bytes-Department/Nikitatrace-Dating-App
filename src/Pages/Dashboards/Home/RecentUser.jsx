@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
-import toast, { Toaster } from 'react-hot-toast';
+import toast from "react-hot-toast";
 
 import CommonModal from "../../../components/Common/CommonModal";
 
 import useDelete from "../../../lib/useDelete";
 import { deleteUserUrl } from "../../../../endpoints";
 
-
-const RecentUser = ({user_list}) => {
+const RecentUser = ({ user_list }) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
@@ -15,11 +14,11 @@ const RecentUser = ({user_list}) => {
   const { deleteResource } = useDelete();
 
   useEffect(() => {
-    setUsers(user_list)
-  }, [])
+    setUsers(user_list);
+  }, []);
 
-  const sliceUser = users.slice(0,5)
-  console.log("sliced users", sliceUser)
+  const sliceUser = users.slice(0, 5);
+  console.log("sliced users", sliceUser);
 
   const handleViewClick = (user) => {
     setSelectedUser(user);
@@ -33,18 +32,14 @@ const RecentUser = ({user_list}) => {
 
   const confirmDelete = async () => {
     try {
-      
       await deleteResource(deleteUserUrl(selectedUser.id));
       setUsers(users.filter((user) => user.id !== selectedUser.id));
-      toast.success(
-      'User deleted successfully!', {
+      toast.success("User deleted successfully!", {
         duration: 2000,
-        position: 'top-right',
-        }
-      );
+        position: "top-right",
+      });
       setIsDeleteModalOpen(false);
       setSelectedUser(null);
-
     } catch (error) {
       toast.error("Failed to delete user!");
       console.log(error);
@@ -55,11 +50,18 @@ const RecentUser = ({user_list}) => {
     <div className="p-6 rounded-xl shadow-lg border border-gray-200">
       <h2 className="text-2xl font-semibold mb-5">Recent Users</h2>
       {sliceUser.map((user) => (
-        <div key={user.id} className="flex items-center justify-between mb-4 border-b border-gray-200 p-2">
+        <div
+          key={user.id}
+          className="flex items-center justify-between mb-4 border-b border-gray-200 p-2"
+        >
           <div className="flex items-center gap-3">
             <div className="h-12 w-12 rounded-full">
-               <img
-                src={user.photo || import.meta.env.VITE_DEFAULT_AVATAR_PATH}
+              <img
+                src={user.photo}
+                onError={(e) => {
+                  e.currentTarget.src =
+                    "https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_640.png";
+                }}
                 alt={user.full_name}
                 className="w-full h-full object-cover rounded-full border-2 border-gray-200 shadow-sm"
               />
@@ -95,15 +97,23 @@ const RecentUser = ({user_list}) => {
         {selectedUser && (
           <div className="space-y-4 text-center">
             <img
-              src={selectedUser.photo || import.meta.env.VITE_DEFAULT_AVATAR_PATH}
+              src={selectedUser.photo}
+              onError={(e) => {
+                e.currentTarget.src =
+                  "https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_640.png";
+              }}
               alt={selectedUser.full_name}
               className="h-24 w-24 rounded-full mx-auto"
             />
             <p className="text-lg font-semibold">{selectedUser.full_name}</p>
             <p className="text-gray-500">Email: {selectedUser.email_address}</p>
             <p className="text-gray-500">Age: {selectedUser.profile?.age}</p>
-            <p className="text-gray-500">Location: {selectedUser.profile?.location}</p>
-            <p className="text-gray-500">Gender: {selectedUser.profile?.gender}</p>
+            <p className="text-gray-500">
+              Location: {selectedUser.profile?.location}
+            </p>
+            <p className="text-gray-500">
+              Gender: {selectedUser.profile?.gender}
+            </p>
             <div className="flex justify-center gap-4 mt-4">
               <button
                 onClick={() => setIsViewModalOpen(false)}
@@ -124,7 +134,9 @@ const RecentUser = ({user_list}) => {
       >
         {selectedUser && (
           <div className="space-y-4 text-center">
-            <p className="text-lg">Are you sure you want to delete {selectedUser.full_name}?</p>
+            <p className="text-lg">
+              Are you sure you want to delete {selectedUser.full_name}?
+            </p>
             <div className="flex justify-center gap-4 mt-4">
               <button
                 onClick={() => setIsDeleteModalOpen(false)}

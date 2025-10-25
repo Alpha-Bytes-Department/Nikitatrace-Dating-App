@@ -56,7 +56,7 @@ const CommunityGuideline = () => {
         position: 'top-right',
       });
     } catch (err) {
-      toast.error('Failed to update. Please try again.');
+      toast.error('Failed to update. Please try again.', err);
     }
   }, [description, postResource]);
 
@@ -84,7 +84,7 @@ const CommunityGuideline = () => {
       theme="snow"
       modules={modules}
       placeholder="Write your community policy here..."
-      className="quill-custom bg-[#FFF1CE] text-black"
+      className="quill-custom h-[500px] text-black"
     />
   ), [description, debouncedSetDescription, modules]);
 
@@ -121,7 +121,7 @@ const CommunityGuideline = () => {
           >
             <IoArrowBackOutline className="text-xl" />
           </button>
-          <h2 className="font-semibold text-lg">community Policy</h2>
+          <h2 className="font-semibold text-xl">Community Guideline</h2>
         </div>
       </div>
 
@@ -151,7 +151,7 @@ const CommunityGuideline = () => {
         </div>
       )}
       {isEditing && (
-        <div className="flex justify-end px-5 pb-5">
+        <div className="flex justify-end px-5 pb-5 mt-10">
           <button
             type="submit"
             className="text-white px-4 py-2 rounded-md bg-[#CE8B38] disabled:opacity-50"

@@ -92,8 +92,8 @@ const Dashboard = () => {
       role: "admin",
     },
     {
-      title: "Ads",
-      path: "/ads",
+      title: "Reports",
+      path: "/reports",
       icon: iconMappings.Eye,
       role: "admin",
     },
@@ -142,10 +142,10 @@ const Dashboard = () => {
           ))}
         </ul>
 
-        <div className="mt-28 bottom-10 absolute w-full border-t border-gray-200 -ms-4">
+        <div className="mt-28 bottom-0 absolute w-full border-t border-gray-200 bg-[#FFFEF0] -ms-4">
           <button
             onClick={handleLogout}
-            className="flex cursor-pointer text-sm items-center justify-center p-4 w-full pt-7"
+            className="flex cursor-pointer text-sm items-center justify-center p-4 w-full py-7"
           >
             <li className="flex items-center justify-center gap-x-4 w-full bg-[#FFF1CE] p-2 rounded hover:shadow-lg duration-300">
               <FaRightFromBracket className="text-xl text-[#CE8B38]" />

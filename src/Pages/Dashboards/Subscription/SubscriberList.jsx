@@ -36,7 +36,11 @@ const SubscriberList = ({ subscribers }) => {
             <div className="flex items-center gap-3">
               <div className="h-12 w-12 rounded-full">
                 <img
-                  src={subscription?.user?.photo || import.meta.env.VITE_DEFAULT_AVATAR_PATH}
+                  src={subscription?.user?.photo }
+                  onError={(e) => {
+                          e.currentTarget.src =
+                            "https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_640.png";
+                        }}
                   alt={subscription?.user?.full_name || "User"}
                   className="w-full h-full object-cover rounded-full border-2 border-gray-200 shadow-sm"
                 />
@@ -102,7 +106,11 @@ const SubscriberList = ({ subscribers }) => {
         {selectedUser && (
           <div className="space-y-4 text-center">
             <img
-              src={selectedUser?.user?.photo || import.meta.env.VITE_DEFAULT_AVATAR_PATH}
+              src={selectedUser?.user?.photo }
+              onError={(e) => {
+                          e.currentTarget.src =
+                            "https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_640.png";
+                        }}
               alt={selectedUser?.user?.full_name || "User"}
               className="h-24 w-24 rounded-full mx-auto"
             />
