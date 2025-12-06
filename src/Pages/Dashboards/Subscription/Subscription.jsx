@@ -16,7 +16,7 @@ const Subscription = () => {
     : 
     <div>
       <h1 className='text-3xl font-bold mb-7'>Subscribers</h1>
-      <SubscribersCard data = {data}/>
+      <SubscribersCard data ={data}/>
       <SubscriptionCard plan={data.subscription_plans}/>
       <SubscriberList subscribers={data.subscribers}/>
     </div>

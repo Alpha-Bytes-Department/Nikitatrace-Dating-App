@@ -3,6 +3,7 @@ import { format } from "date-fns";
 import useReports from "../../../lib/useReports";
 import apiClient from "../../../lib/api-client";
 import toast from "react-hot-toast";
+import Loading from "../../../components/Common/Loading";
 
 const Reports = () => {
   const { report, data, loading, error } = useReports();
@@ -21,9 +22,7 @@ const Reports = () => {
   // === Loading State ===
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-64">
-        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-600"></div>
-      </div>
+      <Loading/>
     );
   }
 
